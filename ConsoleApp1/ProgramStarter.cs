@@ -1,8 +1,8 @@
-﻿using MongoDbConsole.Helper;
-using MongoDbConsole.Model;
-using MongoDbConsole.Repositories;
+﻿using Client.Core.Model;
+using Client.Developer;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
+using Repository;
 using System;
 using System.Threading.Tasks;
 
@@ -18,7 +18,7 @@ namespace MongoDbConsole
         /// </summary>
         public static void DeveloperCollectionTest()
         {
-            DeveloperRepository repository = new DeveloperRepository();
+            IDeveloperRepository repository = new DeveloperRepository();
             var developer = Factory.CreateDeveloper();
             BsonDocument doc = repository.CreateDocument(developer);
 
@@ -27,7 +27,7 @@ namespace MongoDbConsole
                 .GetAwaiter().GetResult().Result;
 
             //Update a document
-            var savedObj = BsonSerializer.Deserialize<Developer>(savedDoc);
+            IDeveloper savedObj = BsonSerializer.Deserialize<Developer>(savedDoc);
             savedObj.CompanyName = "Bosch";
 
             savedObj = Task.Factory.StartNew(async () => await repository.UpdateAsync(savedObj))
