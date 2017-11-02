@@ -1,18 +1,18 @@
 ﻿using Client.Core.Model;
 
-namespace Client.Developer
+namespace Developer
 {
     public static class Factory
     {
         public static IDeveloper CreateDeveloper()
         {
-            var developer = new Developer
+            var developer = new DeveloperModel
             {
                 Name = "asty",
                 CompanyName = "cellent"
             };
 
-            Knowledge knowledge = new Knowledge
+            KnowledgeModel knowledge = new KnowledgeModel
             {
                 Language = "C#",
                 Technology = "WPF",

@@ -1,5 +1,4 @@
 ﻿using MongoDB.Bson;
-using System.Collections.Generic;
 
 namespace Client.Core.Model
 {
@@ -11,6 +10,8 @@ namespace Client.Core.Model
         string Name { get; set; }
 
         string CompanyName { get; set; }
+
+        bool IsValid { get; }
     }
 
     

@@ -1,9 +1,9 @@
 ﻿using Client.Core.Model;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace Client.Developer
+namespace Developer
 {
-    public class Knowledge : IKnowledge
+    public class KnowledgeModel : IKnowledge
     {
         [BsonElement("language_name")]
         public string Language { get; set; }

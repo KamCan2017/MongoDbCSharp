@@ -1,7 +1,7 @@
 ﻿using Client.Core.Model;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace Client.Developer
+namespace Developer
 {
 
     [BsonIgnoreExtraElements]

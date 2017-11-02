@@ -3,14 +3,14 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System.Collections.Generic;
 
-namespace Client.Developer
+namespace Developer
 {
-    public class Developer : IDeveloper
+    public class DeveloperModel : IDeveloper
     {
         [BsonConstructor]
-        public Developer()
+        public DeveloperModel()
         {
-            KnowledgeBase = new List<Knowledge>();
+            KnowledgeBase = new List<KnowledgeModel>();
         }
 
         [BsonId]
@@ -23,7 +23,12 @@ namespace Client.Developer
         public string CompanyName { get; set; }
 
         [BsonElement("knowledge_base")]
-        public List<Knowledge> KnowledgeBase { get; set; }
+        public List<KnowledgeModel> KnowledgeBase { get; set; }
+
+        public bool IsValid
+        {
+            get { return !string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(CompanyName); }
+        }
     }
 
     

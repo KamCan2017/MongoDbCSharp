@@ -1,5 +1,5 @@
 ﻿using Client.Core.Model;
-using Client.Developer;
+using Developer;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using Repository;
@@ -27,7 +27,7 @@ namespace MongoDbConsole
                 .GetAwaiter().GetResult().Result;
 
             //Update a document
-            IDeveloper savedObj = BsonSerializer.Deserialize<Developer>(savedDoc);
+            IDeveloper savedObj = BsonSerializer.Deserialize<DeveloperModel>(savedDoc);
             savedObj.CompanyName = "Bosch";
 
             savedObj = Task.Factory.StartNew(async () => await repository.UpdateAsync(savedObj))
