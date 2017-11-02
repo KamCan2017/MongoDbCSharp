@@ -43,7 +43,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseViewModel.cs" />
     <Compile Include="Model\IDepartment.cs" />
     <Compile Include="Model\IDeveloper.cs" />
     <Compile Include="Model\IKnowledge.cs" />

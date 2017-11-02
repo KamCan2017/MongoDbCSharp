@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Client.Core.Model;
 using MongoDB.Bson;
+using Developer;
 
 namespace Repository
 {
@@ -11,7 +12,7 @@ namespace Repository
         Task<bool> DeleteAllAsync();
         Task<bool> DeleteByIdAsync(ObjectId id);
         Task<bool> DeletedAsync(IDeveloper entity);
-        Task<IEnumerable<IDeveloper>> FindAllAsync();
+        Task<IEnumerable<DeveloperModel>> FindAllAsync();
         Task<IDeveloper> FindByIdAsync(ObjectId id);
         Task<IEnumerable<IDeveloper>> FindByTextSearch(string text);
         Task<IEnumerable<BsonDocument>> GetDocumentFromDeveloperView();

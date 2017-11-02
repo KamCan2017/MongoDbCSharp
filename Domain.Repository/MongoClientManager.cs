@@ -36,8 +36,8 @@ namespace Repository
         private static void CreateViewInDb()
         {
             //setFeatureCompatibilityVersion for view 
-            BsonDocument setFeatureCompatibilityVersionCmd = new BsonDocument { { "setFeatureCompatibilityVersion", "3.4" } };
-            var doc = Task.Run(async () => await DataBase.RunCommandAsync<BsonDocument>(setFeatureCompatibilityVersionCmd)) ;
+            //BsonDocument setFeatureCompatibilityVersionCmd = new BsonDocument { { "setFeatureCompatibilityVersion", "3.4" } };
+            //var doc = Task.Run(async () => await DataBase.RunCommandAsync<BsonDocument>(setFeatureCompatibilityVersionCmd)) ;
 
             var pipeline = PipelineDefinition<BsonDocument,BsonDocument>.Create(
                new BsonDocument {

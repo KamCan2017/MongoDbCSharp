@@ -13,6 +13,14 @@
             <ColumnDefinition Width="7*"/>
         </Grid.ColumnDefinitions>
 
-        <dviews:DeveloperView Grid.Column="1" Margin="10"/>
+        <ListBox Grid.Column="0" Margin="10" SelectedItem="{Binding SelectedItem}">
+            <ListBoxItem Content="Developer List"/>
+            <ListBoxItem Content="Developer Editor">
+            </ListBoxItem>
+        </ListBox>
+
+        <ContentControl Grid.Column="1" Margin="10" Content="{Binding ContentView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            
+        </ContentControl>
     </Grid>
 </Window>

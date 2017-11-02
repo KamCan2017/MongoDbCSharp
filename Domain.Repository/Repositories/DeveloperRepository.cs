@@ -81,7 +81,7 @@ namespace Repository
         }
       
 
-        public async Task<IEnumerable<IDeveloper>> FindAllAsync()
+        public async Task<IEnumerable<DeveloperModel>> FindAllAsync()
         {
             var collection = MongoClientManager.DataBase.GetCollection<DeveloperModel>(CollectionNames.Developer);
             var filter = new BsonDocument();

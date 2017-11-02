@@ -1,5 +1,4 @@
-﻿using Client.Core.Model;
-using Developer;
+﻿using Developer;
 using Microsoft.Practices.Prism.Commands;
 using Repository;
 using System.ComponentModel;
