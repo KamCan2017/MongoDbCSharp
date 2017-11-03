@@ -144,6 +144,9 @@ namespace Repository
 
         public async Task<IEnumerable<DeveloperModel>> FindByTextSearch(string text)
         {
+            if (string.IsNullOrEmpty(text))
+                return new List<DeveloperModel>();
+
             var collection = MongoClientManager.DataBase.GetCollection<DeveloperModel>(CollectionNames.Developer);
 
             var filter = Builders<DeveloperModel>.Filter.Text(text);
