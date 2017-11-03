@@ -9,6 +9,7 @@ namespace Client.ViewModels
         private DeveloperView _viewDeveloperEditor;
         private DeveloperList _viewDeveloperList;
         private UserControl _contentView;
+        private ListBoxItem _selectedItem;
 
         public MainWindowViewModel()
         {
@@ -18,7 +19,22 @@ namespace Client.ViewModels
             ContentView = _viewDeveloperList;
         }
 
-        public object SelectedItem { get; set; }
+        public ListBoxItem SelectedItem
+        {
+            get { return _selectedItem; }
+            set
+            {
+                _selectedItem = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedItem)));
+                if(_selectedItem != null)
+                {
+                    if ((string)_selectedItem.Content == "Developer List")
+                        ContentView = _viewDeveloperList;
+                    else
+                        ContentView = _viewDeveloperEditor;
+                }
+            }
+        }
 
         public UserControl ContentView
         {

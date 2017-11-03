@@ -34,6 +34,19 @@
                     <GridViewColumn Header="Name" Width="auto" DisplayMemberBinding="{Binding Name}"/>
                     <GridViewColumn Header="Company" Width="auto" DisplayMemberBinding="{Binding CompanyName}"/>
                     <GridViewColumn Header="Knowledge" Width="auto" DisplayMemberBinding="{Binding KnowledgeBase, Converter={StaticResource KnowledgeConverter}}"/>
+                    <GridViewColumn Header="Action" Width="auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock>
+                                    <Hyperlink Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor}}" CommandParameter="{Binding}">
+                                    <InlineUIContainer>
+                                        <TextBlock Text="Delete"/>
+                                    </InlineUIContainer> 
+                                    </Hyperlink>
+                                </TextBlock>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>

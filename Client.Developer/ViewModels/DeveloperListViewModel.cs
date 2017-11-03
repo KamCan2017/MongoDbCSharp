@@ -1,22 +1,28 @@
 ﻿using Developer;
+using Microsoft.Practices.Prism.Commands;
 using Repository;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Threading.Tasks;
 
 namespace Client.Developer
 {
     public class DeveloperListViewModel : INotifyPropertyChanged
     {
         private IDeveloperRepository _developerRepository;
-        private IEnumerable<DeveloperModel> _developers;
+        private ObservableCollection<DeveloperModel> _developers;
+        private DelegateCommand<DeveloperModel> _deleteCommand;
 
         public DeveloperListViewModel()
         {
             _developerRepository = new DeveloperRepository();
+            _deleteCommand = new DelegateCommand<DeveloperModel>(async (item) => await DeleteModel(item));
         }
 
+       
+        public DelegateCommand<DeveloperModel> DeleteCommand { get { return _deleteCommand; } }
 
-        public IEnumerable<DeveloperModel> Developers
+        public ObservableCollection<DeveloperModel> Developers
         {
             get { return _developers; }
             set
@@ -30,7 +36,19 @@ namespace Client.Developer
 
         public async void LoadData()
         {
-           Developers = await _developerRepository.FindAllAsync();
-        }     
+           var developers = await _developerRepository.FindAllAsync();
+            Developers = new ObservableCollection<DeveloperModel>(developers);
+        }
+
+        private async Task<bool> DeleteModel(DeveloperModel entity)
+        {
+            var result = false;
+            result = await _developerRepository.DeletedAsync(entity);
+            if (result)
+            {
+                Developers.Remove(entity);
+            }
+            return result;
+        }
     }
 }
