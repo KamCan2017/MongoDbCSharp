@@ -14,6 +14,7 @@ namespace Client.Developer
         private ICommand _cancelCommand;
 
         private IDeveloperRepository _developerRepository;
+        private string _knowledgeList;
 
         public DeveloperViewModel()
         {
@@ -45,7 +46,15 @@ namespace Client.Developer
             get { return _cancelCommand; }
         }
 
-        public string KnowledgeList { get; set; }
+        public string KnowledgeList
+        {
+            get { return _knowledgeList; }
+            set
+            {
+                _knowledgeList = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(KnowledgeList)));
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -53,19 +62,21 @@ namespace Client.Developer
         {
             if (_developer != null && _developer.IsValid)
             {
-                if(!string.IsNullOrEmpty(KnowledgeList))
+                if(!string.IsNullOrEmpty(_knowledgeList))
                 {
-                    var parameters = KnowledgeList.Split(',');
+                    var parameters = _knowledgeList.Split(',');
                     if(parameters != null && parameters.Length > 0)
                     {
                         foreach(string str in parameters)
                         {
-                            _developer.KnowledgeBase.Add(new KnowledgeModel() { Technology = str });
+                            DeveloperModel.KnowledgeBase.Add(new KnowledgeModel() { Technology = str });
                         }
                     }
                 }
 
-                await _developerRepository.SaveAsync(_developer);
+                await _developerRepository.SaveAsync(DeveloperModel);
+                DeveloperModel = new DeveloperModel();
+                KnowledgeList = string.Empty;
                 return true;
             }
 
@@ -73,6 +84,9 @@ namespace Client.Developer
         }
 
         private void Cancel()
-        { }
+        {
+            DeveloperModel = new DeveloperModel();
+            KnowledgeList = string.Empty;
+        }
     }
 }

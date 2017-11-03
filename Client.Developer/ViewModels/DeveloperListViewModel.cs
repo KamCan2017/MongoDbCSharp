@@ -4,6 +4,8 @@ using Repository;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using System.Windows;
+using Xceed.Wpf.Toolkit;
 
 namespace Client.Developer
 {
@@ -32,6 +34,7 @@ namespace Client.Developer
             }
         }
 
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void LoadData()
@@ -47,10 +50,15 @@ namespace Client.Developer
         private async Task<bool> DeleteModel(DeveloperModel entity)
         {
             var result = false;
-            result = await _developerRepository.DeletedAsync(entity);
-            if (result)
+
+            var dialogres = Xceed.Wpf.Toolkit.MessageBox.Show("Delete the selected entity?", "Delete entity", MessageBoxButton.YesNo);
+            if (dialogres == System.Windows.MessageBoxResult.Yes)
             {
-                Developers.Remove(entity);
+                result = await _developerRepository.DeletedAsync(entity);
+                if (result)
+                {
+                    Developers.Remove(entity);
+                }
             }
             return result;
         }
