@@ -23,12 +23,23 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>
-            <RowDefinition Height="8*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="6*"/>
         </Grid.RowDefinitions>
 
         <TextBlock Text="Developer List" FontWeight="Bold" FontSize="28"/>
 
-        <ListView Grid.Row="1" ItemsSource="{Binding Developers,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="Filter:" Margin="3"/>
+                <TextBox VerticalAlignment="Top" Margin="3" Width="120" Text="{Binding Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+            <Button Margin="10" Width="60" Command="{Binding FilterCommand}" Content="Apply"/>
+            <Button  HorizontalAlignment="Right" Margin="10" Width="60" Command="{Binding UpdateCommand}"
+                Content="Update"/>
+        </StackPanel>
+
+        <ListView Grid.Row="2" ItemsSource="{Binding Developers,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Name" Width="auto" DisplayMemberBinding="{Binding Name}"/>

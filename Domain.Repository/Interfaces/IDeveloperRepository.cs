@@ -14,7 +14,7 @@ namespace Repository
         Task<bool> DeletedAsync(IDeveloper entity);
         Task<IEnumerable<DeveloperModel>> FindAllAsync();
         Task<IDeveloper> FindByIdAsync(ObjectId id);
-        Task<IEnumerable<IDeveloper>> FindByTextSearch(string text);
+        Task<IEnumerable<DeveloperModel>> FindByTextSearch(string text);
         Task<IEnumerable<BsonDocument>> GetDocumentFromDeveloperView();
         Task<BsonDocument> InsertDocumentAsync(BsonDocument doc);
         Task<IDeveloper> SaveAsync(IDeveloper entity);

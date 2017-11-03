@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows;
 using Xceed.Wpf.Toolkit;
+using System;
 
 namespace Client.Developer
 {
@@ -14,15 +15,24 @@ namespace Client.Developer
         private IDeveloperRepository _developerRepository;
         private ObservableCollection<DeveloperModel> _developers;
         private DelegateCommand<DeveloperModel> _deleteCommand;
+        private DelegateCommand _refreshCommand;
+        private DelegateCommand _filterCommand;
 
         public DeveloperListViewModel()
         {
             _developerRepository = new DeveloperRepository();
             _deleteCommand = new DelegateCommand<DeveloperModel>(async (item) => await DeleteModel(item));
+            _refreshCommand = new DelegateCommand(() => LoadData());
+            _filterCommand = new DelegateCommand(async () => await ExecuteFilter());
         }
 
-       
+        
+
         public DelegateCommand<DeveloperModel> DeleteCommand { get { return _deleteCommand; } }
+
+        public DelegateCommand UpdateCommand { get { return _refreshCommand; } }
+
+        public DelegateCommand FilterCommand { get { return _filterCommand; } }
 
         public ObservableCollection<DeveloperModel> Developers
         {
@@ -35,16 +45,14 @@ namespace Client.Developer
         }
 
 
+        public string Filter { get; set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public void LoadData()
+        public async void LoadData()
         {
-            Task.Factory.StartNew(async() => 
-            {
-                var developers = await _developerRepository.FindAllAsync();
-                Developers = new ObservableCollection<DeveloperModel>(developers);
-            });
-           
+            var developers = await _developerRepository.FindAllAsync();
+            Developers = new ObservableCollection<DeveloperModel>(developers);
         }
 
         private async Task<bool> DeleteModel(DeveloperModel entity)
@@ -61,6 +69,12 @@ namespace Client.Developer
                 }
             }
             return result;
+        }
+
+        private async Task ExecuteFilter()
+        {
+            var results = await _developerRepository.FindByTextSearch(Filter);
+            Developers = new ObservableCollection<DeveloperModel>(results);
         }
     }
 }

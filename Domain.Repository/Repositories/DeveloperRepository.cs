@@ -14,7 +14,7 @@ namespace Repository
     {
         static DeveloperRepository()
         {
-            //BuildIndexKeys();
+            BuildIndexKeys();
         }
 
         private static bool BuildIndexKeys()
@@ -142,7 +142,7 @@ namespace Repository
         }
 
 
-        public async Task<IEnumerable<IDeveloper>> FindByTextSearch(string text)
+        public async Task<IEnumerable<DeveloperModel>> FindByTextSearch(string text)
         {
             var collection = MongoClientManager.DataBase.GetCollection<DeveloperModel>(CollectionNames.Developer);
 
