@@ -3,6 +3,7 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Repository
 {
@@ -35,19 +36,40 @@ namespace Repository
 
         private static void CreateViewInDb()
         {
-            //setFeatureCompatibilityVersion for view 
-            //BsonDocument setFeatureCompatibilityVersionCmd = new BsonDocument { { "setFeatureCompatibilityVersion", "3.4" } };
-            //var doc = Task.Run(async () => await DataBase.RunCommandAsync<BsonDocument>(setFeatureCompatibilityVersionCmd)) ;
+            try
+            {
+                Task.Run(async () => 
+                {
+                    var filter = new BsonDocument("name", CollectionNames.DeveloperView);
+                    //filter by collection name
+                    var collections = await DataBase.ListCollectionsAsync(new ListCollectionsOptions { Filter = filter });
+                    //check for existence
+                    var viewExist = await collections.AnyAsync();
 
-            var pipeline = PipelineDefinition<BsonDocument,BsonDocument>.Create(
-               new BsonDocument {
-                   { "$match",
-                      new BsonDocument {{ "company_name", "cellent"}}
-                   }
-               });
+                    if(!viewExist)
+                    {
+                        //setFeatureCompatibilityVersion for view 
+                        BsonDocument setFeatureCompatibilityVersionCmd = new BsonDocument { { "setFeatureCompatibilityVersion", "3.4" } };
+                        await _client.GetDatabase(DBNames.admin).RunCommandAsync<BsonDocument>(setFeatureCompatibilityVersionCmd);
 
-           Task.Run(async () => 
-            await DataBase.CreateViewAsync(CollectionNames.DeveloperView, CollectionNames.Developer, pipeline));
+                        var pipeline = PipelineDefinition<BsonDocument, BsonDocument>.Create(
+                           new BsonDocument {
+                                               { "$match",
+                                                  new BsonDocument {{ "company_name", "cellent"}}
+                                               }
+                           });
+                        await DataBase.CreateViewAsync(CollectionNames.DeveloperView, CollectionNames.Developer, pipeline);
+                    }
+                });
+
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
 
 

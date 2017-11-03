@@ -14,7 +14,7 @@ namespace Repository
     {
         static DeveloperRepository()
         {
-            BuildIndexKeys();
+            //BuildIndexKeys();
         }
 
         private static bool BuildIndexKeys()

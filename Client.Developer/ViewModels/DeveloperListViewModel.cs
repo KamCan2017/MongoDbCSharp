@@ -34,10 +34,14 @@ namespace Client.Developer
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public async void LoadData()
+        public void LoadData()
         {
-           var developers = await _developerRepository.FindAllAsync();
-            Developers = new ObservableCollection<DeveloperModel>(developers);
+            Task.Factory.StartNew(async() => 
+            {
+                var developers = await _developerRepository.FindAllAsync();
+                Developers = new ObservableCollection<DeveloperModel>(developers);
+            });
+           
         }
 
         private async Task<bool> DeleteModel(DeveloperModel entity)
