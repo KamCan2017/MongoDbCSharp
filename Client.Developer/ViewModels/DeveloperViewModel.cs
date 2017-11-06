@@ -1,6 +1,7 @@
 ﻿using Client.Developer.Converter;
 using Developer;
 using Microsoft.Practices.Prism.Commands;
+using MongoDB.Bson;
 using Repository;
 using System;
 using System.ComponentModel;
@@ -92,7 +93,7 @@ namespace Client.Developer
                     }
                 }
 
-                if (DeveloperModel.ID == null)
+                if (DeveloperModel.ID == ObjectId.Empty)
                     await _developerRepository.SaveAsync(DeveloperModel);
                 else
                     await _developerRepository.UpdateAsync(DeveloperModel);
