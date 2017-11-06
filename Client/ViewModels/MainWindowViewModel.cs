@@ -1,51 +1,55 @@
 ﻿using Client.Developer.Views;
+using Microsoft.Practices.Prism.Commands;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
+using System;
+using Client.Developer;
+using Client.Developer.ViewModels;
 
 namespace Client.ViewModels
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
-        private DeveloperView _viewDeveloperEditor;
-        private DeveloperList _viewDeveloperList;
-        private UserControl _contentView;
-        private ListBoxItem _selectedItem;
+        private IBaseViewModel _selectedViewModel;
+        private Visibility _visible;
+        private DelegateCommand<object> _showViewCommand;
 
         public MainWindowViewModel()
         {
-            _viewDeveloperEditor = new DeveloperView();
-            _viewDeveloperList = new DeveloperList();
-
-            ContentView = _viewDeveloperList;
+            _showViewCommand = new DelegateCommand<object>(item => ShowView(item));
         }
 
-        public ListBoxItem SelectedItem
+        
+
+        public Visibility Visible
         {
-            get { return _selectedItem; }
+            get { return _visible; }
             set
             {
-                _selectedItem = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedItem)));
-                if(_selectedItem != null)
-                {
-                    if ((string)_selectedItem.Content == "Developer List")
-                        ContentView = _viewDeveloperList;
-                    else
-                        ContentView = _viewDeveloperEditor;
-                }
+                _visible = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Visible)));
             }
-        }
+        } 
 
-        public UserControl ContentView
+        public DelegateCommand<object> ShowViewCommand
         {
-            get { return _contentView; }
-            set
-            {
-                _contentView = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ContentView)));
-            }
-        }
+            get { return _showViewCommand; }
+        }       
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private void ShowView(object item)
+        {
+            if (item is IBaseViewModel)
+            {
+                if(_selectedViewModel != null)
+                {
+                    _selectedViewModel.Visible = Visibility.Collapsed;
+                }
+                _selectedViewModel = item as IBaseViewModel;
+                _selectedViewModel.Visible = Visibility.Visible;
+            }
+        }
     }
 }

@@ -1,22 +1,22 @@
-﻿using Developer;
+﻿using Client.Developer.ViewModels;
+using Developer;
 using Microsoft.Practices.Prism.Commands;
 using Repository;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows;
-using Xceed.Wpf.Toolkit;
-using System;
 
 namespace Client.Developer
 {
-    public class DeveloperListViewModel : INotifyPropertyChanged
+    public class DeveloperListViewModel : INotifyPropertyChanged, IBaseViewModel
     {
         private IDeveloperRepository _developerRepository;
         private ObservableCollection<DeveloperModel> _developers;
         private DelegateCommand<DeveloperModel> _deleteCommand;
         private DelegateCommand _refreshCommand;
         private DelegateCommand _filterCommand;
+        private Visibility _visible;
 
         public DeveloperListViewModel()
         {
@@ -24,6 +24,7 @@ namespace Client.Developer
             _deleteCommand = new DelegateCommand<DeveloperModel>(async (item) => await DeleteModel(item));
             _refreshCommand = new DelegateCommand(() => LoadData());
             _filterCommand = new DelegateCommand(async () => await ExecuteFilter());
+            Visible = Visibility.Collapsed;
         }
 
         
@@ -47,8 +48,20 @@ namespace Client.Developer
 
         public string Filter { get; set; }
 
+
+        public Visibility Visible
+        {
+            get { return _visible; }
+            set
+            {
+                _visible = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Visible)));
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
+       
         public async void LoadData()
         {
             var developers = await _developerRepository.FindAllAsync();

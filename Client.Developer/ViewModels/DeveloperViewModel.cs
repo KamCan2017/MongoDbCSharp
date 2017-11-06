@@ -1,13 +1,15 @@
-﻿using Developer;
+﻿using Client.Developer.ViewModels;
+using Developer;
 using Microsoft.Practices.Prism.Commands;
 using Repository;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Client.Developer
 {
-    public class DeveloperViewModel: INotifyPropertyChanged
+    public class DeveloperViewModel: INotifyPropertyChanged, IBaseViewModel
     {
         private DeveloperModel _developer;
         private ICommand _saveCommand;
@@ -15,6 +17,7 @@ namespace Client.Developer
 
         private IDeveloperRepository _developerRepository;
         private string _knowledgeList;
+        private Visibility _visible;
 
         public DeveloperViewModel()
         {
@@ -23,6 +26,7 @@ namespace Client.Developer
             _cancelCommand = new DelegateCommand(Cancel);
 
             _developer = new DeveloperModel();
+            Visible = Visibility.Collapsed;
         }
 
 
@@ -56,8 +60,21 @@ namespace Client.Developer
             }
         }
 
+
+        public Visibility Visible
+        {
+            get { return _visible; }
+            set
+            {
+                _visible = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Visible)));
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
+
+        
         private async Task<bool> Save()
         {
             if (_developer != null && _developer.IsValid)
@@ -87,6 +104,7 @@ namespace Client.Developer
         {
             DeveloperModel = new DeveloperModel();
             KnowledgeList = string.Empty;
+            Visible = Visibility.Collapsed;
         }
     }
 }
