@@ -1,5 +1,4 @@
-﻿using Client.Developer.ViewModels;
-using Developer;
+﻿using Developer;
 using Microsoft.Practices.Prism.Commands;
 using Repository;
 using System.Collections.ObjectModel;
@@ -9,14 +8,14 @@ using System.Windows;
 
 namespace Client.Developer
 {
-    public class DeveloperListViewModel : INotifyPropertyChanged, IBaseViewModel
+    public class DeveloperListViewModel : INotifyPropertyChanged
     {
         private IDeveloperRepository _developerRepository;
         private ObservableCollection<DeveloperModel> _developers;
         private DelegateCommand<DeveloperModel> _deleteCommand;
         private DelegateCommand _refreshCommand;
         private DelegateCommand _filterCommand;
-        private Visibility _visible;
+        private DeveloperModel _selectedItem;
 
         public DeveloperListViewModel()
         {
@@ -24,11 +23,9 @@ namespace Client.Developer
             _deleteCommand = new DelegateCommand<DeveloperModel>(async (item) => await DeleteModel(item));
             _refreshCommand = new DelegateCommand(() => LoadData());
             _filterCommand = new DelegateCommand(async () => await ExecuteFilter());
-            Visible = Visibility.Collapsed;
         }
 
-        
-
+       
         public DelegateCommand<DeveloperModel> DeleteCommand { get { return _deleteCommand; } }
 
         public DelegateCommand UpdateCommand { get { return _refreshCommand; } }
@@ -45,19 +42,20 @@ namespace Client.Developer
             }
         }
 
-
-        public string Filter { get; set; }
-
-
-        public Visibility Visible
+        public DeveloperModel SelectedItem
         {
-            get { return _visible; }
+            get { return _selectedItem; }
+
             set
             {
-                _visible = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Visible)));
+                _selectedItem = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedItem)));
+                DataExchanger.FireData(_selectedItem, null);
             }
         }
+
+
+        public string Filter { get; set; }      
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -88,6 +86,6 @@ namespace Client.Developer
         {
             var results = await _developerRepository.FindByTextSearch(Filter);
             Developers = new ObservableCollection<DeveloperModel>(results);
-        }
+        }       
     }
 }

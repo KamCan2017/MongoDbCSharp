@@ -11,8 +11,13 @@ namespace Client.Developer.Converter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            return ExtractKnowledge(value);
+        }
+
+        public string ExtractKnowledge(object value)
+        {
             var knowledges = value as IEnumerable<KnowledgeModel>;
-            if(knowledges != null && knowledges.Any())
+            if (knowledges != null && knowledges.Any())
             {
                 string text = string.Empty;
                 for (int i = 0; i < knowledges.Count(); i++)

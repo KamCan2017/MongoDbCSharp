@@ -18,6 +18,7 @@ namespace Repository
         Task<IEnumerable<BsonDocument>> GetDocumentFromDeveloperView();
         Task<BsonDocument> InsertDocumentAsync(BsonDocument doc);
         Task<IDeveloper> SaveAsync(IDeveloper entity);
-        Task<IDeveloper> UpdateAsync(IDeveloper entity);
+        Task<DeveloperModel> UpdateAsync(DeveloperModel entity);
+        Task<bool> UpdateDocumentAsync(BsonDocument doc);
     }
 }

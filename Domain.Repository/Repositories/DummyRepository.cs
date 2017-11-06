@@ -99,10 +99,6 @@ namespace Repository
             var update = Builders<BsonDocument>.Update.Set("accounts.0.account_balance", newValue);
 
             var result = await collection.UpdateOneAsync(filter1, update);
-            //if (result.IsModifiedCountAvailable)
-            //{
-            //    var test = result.ModifiedCount.Should().Be(1);
-            //}
             Console.WriteLine("document updated id " + document["_id"]);
         }
 

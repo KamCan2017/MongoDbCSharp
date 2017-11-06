@@ -17,24 +17,10 @@
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*"/>
-            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="4*"/>
         </Grid.ColumnDefinitions>
-
-        <ListBox Grid.Column="0" Margin="10" SelectedItem="{Binding SelectedItem}">
-            <ListBoxItem>
-                <Button Content="Developer List" Style="{StaticResource TransparentButtonStyle2}"
-                        Command="{Binding ShowViewCommand}" CommandParameter="{Binding DataContext, ElementName=developerListView}"/>
-            </ListBoxItem>
-            <ListBoxItem>
-                <Button Content="Developer Editor" Style="{StaticResource TransparentButtonStyle2}"
-                        Command="{Binding ShowViewCommand}" CommandParameter="{Binding DataContext, ElementName=developerView}"/>
-            </ListBoxItem>
-        </ListBox>
-
-        <Grid Grid.Column="1" Margin="10">
-            <dviews:DeveloperList Name="developerListView"/>
-            <dviews:DeveloperView Name="developerView"/>
-        </Grid>
+        <dviews:DeveloperList Name="developerListView" Grid.Column="0" Margin="10"/>
+        <dviews:DeveloperView Name="developerView" Grid.Column="1" Margin="10"/>
     </Grid>
 </Window>

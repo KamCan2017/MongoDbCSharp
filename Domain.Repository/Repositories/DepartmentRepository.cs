@@ -21,7 +21,6 @@ namespace Repository
 
             Console.WriteLine("count:" + collection.Count(filter).ToString());
 
-
             return entity;
         }
 

@@ -1,23 +1,22 @@
-﻿using Client.Developer.ViewModels;
+﻿using Client.Developer.Converter;
 using Developer;
 using Microsoft.Practices.Prism.Commands;
 using Repository;
+using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 
 namespace Client.Developer
 {
-    public class DeveloperViewModel: INotifyPropertyChanged, IBaseViewModel
-    {
+    public class DeveloperViewModel: INotifyPropertyChanged
+        {
         private DeveloperModel _developer;
         private ICommand _saveCommand;
         private ICommand _cancelCommand;
 
         private IDeveloperRepository _developerRepository;
         private string _knowledgeList;
-        private Visibility _visible;
 
         public DeveloperViewModel()
         {
@@ -26,9 +25,18 @@ namespace Client.Developer
             _cancelCommand = new DelegateCommand(Cancel);
 
             _developer = new DeveloperModel();
-            Visible = Visibility.Collapsed;
+            DataExchanger.FireData += GetData;
         }
 
+        private void GetData(object data, EventArgs e)
+        {
+            if (data is DeveloperModel)
+            {
+                DeveloperModel = data as DeveloperModel;
+                KnowledgeConverter converter = new KnowledgeConverter();
+                KnowledgeList = converter.ExtractKnowledge(DeveloperModel.KnowledgeBase);
+            }
+        }
 
         public DeveloperModel DeveloperModel
         {
@@ -60,17 +68,7 @@ namespace Client.Developer
             }
         }
 
-
-        public Visibility Visible
-        {
-            get { return _visible; }
-            set
-            {
-                _visible = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Visible)));
-            }
-        }
-
+       
         public event PropertyChangedEventHandler PropertyChanged;
 
 
@@ -79,19 +77,26 @@ namespace Client.Developer
         {
             if (_developer != null && _developer.IsValid)
             {
-                if(!string.IsNullOrEmpty(_knowledgeList))
+                var parameters = _knowledgeList.Split(',');
+                if (parameters != null && parameters.Length > 0)
                 {
-                    var parameters = _knowledgeList.Split(',');
-                    if(parameters != null && parameters.Length > 0)
+                    if (DeveloperModel.KnowledgeBase == null)
+                        DeveloperModel.KnowledgeBase = new System.Collections.Generic.List<KnowledgeModel>();
+
+                    DeveloperModel.KnowledgeBase.Clear();
+
+                    foreach (string str in parameters)
                     {
-                        foreach(string str in parameters)
-                        {
-                            DeveloperModel.KnowledgeBase.Add(new KnowledgeModel() { Technology = str });
-                        }
+                        if(!string.IsNullOrEmpty(str))
+                          DeveloperModel.KnowledgeBase.Add(new KnowledgeModel() { Technology = str });
                     }
                 }
 
-                await _developerRepository.SaveAsync(DeveloperModel);
+                if (DeveloperModel.ID == null)
+                    await _developerRepository.SaveAsync(DeveloperModel);
+                else
+                    await _developerRepository.UpdateAsync(DeveloperModel);
+
                 DeveloperModel = new DeveloperModel();
                 KnowledgeList = string.Empty;
                 return true;
@@ -104,7 +109,6 @@ namespace Client.Developer
         {
             DeveloperModel = new DeveloperModel();
             KnowledgeList = string.Empty;
-            Visible = Visibility.Collapsed;
         }
     }
 }

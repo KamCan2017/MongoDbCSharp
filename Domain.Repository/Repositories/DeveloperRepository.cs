@@ -51,19 +51,42 @@ namespace Repository
             return entity;
         }
 
-        public async Task<IDeveloper> UpdateAsync(IDeveloper entity)
+        public async Task<DeveloperModel> UpdateAsync(DeveloperModel entity)
         {
             var collection = MongoClientManager.DataBase.GetCollection<DeveloperModel>(CollectionNames.Developer);
 
-            await collection.ReplaceOneAsync(d => d.ID == entity.ID, entity as DeveloperModel);
-            Console.WriteLine("document added: " + entity.ToJson());
+            //copy the array list to update separatly the array list
+            var array = entity.KnowledgeBase.ToList();
+            entity.KnowledgeBase = null;
+
+            await collection.ReplaceOneAsync(d => d.ID == entity.ID, entity);
+
+            //update separatly the array list
+            var update = Builders<DeveloperModel>.Update.Set(p => p.KnowledgeBase, array);
+            await collection.UpdateOneAsync(d => d.ID == entity.ID, update);
+
+            Console.WriteLine("document updated: " + entity.ToJson());
 
             var filter = new BsonDocument();
-
             Console.WriteLine("count:" + collection.Count(filter).ToString());
 
 
             return entity;
+        }
+
+        public async Task<bool> UpdateDocumentAsync(BsonDocument doc)
+        {
+            var collection = MongoClientManager.DataBase.GetCollection<BsonDocument>(CollectionNames.Developer);
+
+            var filter1 = Builders<BsonDocument>.Filter.Eq("_id", doc["_id"]);
+            await collection.ReplaceOneAsync(filter1, doc);
+            Console.WriteLine("document updated: " + doc.ToJson());
+
+            var filter = new BsonDocument();
+            Console.WriteLine("count:" + collection.Count(filter).ToString());
+
+
+            return true;
         }
 
         public async Task<BsonDocument> InsertDocumentAsync(BsonDocument doc)
