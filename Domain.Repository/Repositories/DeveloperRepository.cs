@@ -12,21 +12,7 @@ namespace Repository
 {
     public class DeveloperRepository : IDeveloperRepository
     {
-        static DeveloperRepository()
-        {
-            BuildIndexKeys();
-        }
-
-        private static bool BuildIndexKeys()
-        {
-            var collection = MongoClientManager.DataBase.GetCollection<BsonDocument>(CollectionNames.Developer);
-
-            //Text index for all fields
-            var keys = Builders<BsonDocument>.IndexKeys.Text("$**");
-            var result = collection.Indexes.CreateOne(keys);
-
-            return !string.IsNullOrEmpty(result);
-        }
+       
         public BsonDocument CreateDocument(DeveloperModel developer)
         {
             if (developer == null)

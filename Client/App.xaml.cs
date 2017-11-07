@@ -13,5 +13,20 @@ namespace Client
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+            this.DispatcherUnhandledException += App_DispatcherUnhandledException;
+        }
+
+        private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            string error = e.Exception.Message;
+            if (e.Exception.InnerException != null)
+                error = e.Exception.InnerException.Message;
+
+            var dialogres = Xceed.Wpf.Toolkit.MessageBox.Show(error, "Error", MessageBoxButton.OK);
+            App.Current.Shutdown();
+        }
     }
 }

@@ -4,6 +4,7 @@ using MongoDB.Driver;
 using System;
 using System.Threading.Tasks;
 using System.Linq;
+using MongoDB.Driver.Core.Clusters;
 
 namespace Repository
 {
@@ -28,12 +29,27 @@ namespace Repository
 
             _client = new MongoClient("mongodb://localhost:27017");
             DataBase = _client.GetDatabase(DBNames.VDB);
+            CheckServerConnection();
             CreateViewInDb();
+            BuildIndexKeys();
         }
 
         public static IMongoDatabase DataBase { get; private set; }
 
+        private static void CheckServerConnection()
+        {
+            bool isMongoLive = DataBase.RunCommandAsync((Command<BsonDocument>)"{ping:1}").Wait(5000);
+            if (isMongoLive)
+            {
+                // connected
+            }
+            else
+            {
+                // couldn't connect
+                throw new Exception("Server connection failed!");
+            }
 
+        }
         private static void CreateViewInDb()
         {
             try
@@ -72,6 +88,16 @@ namespace Repository
 
         }
 
+        private static bool BuildIndexKeys()
+        {
+            var collection = DataBase.GetCollection<BsonDocument>(CollectionNames.Developer);
+
+            //Text index for all fields
+            var keys = Builders<BsonDocument>.IndexKeys.Text("$**");
+            var result = collection.Indexes.CreateOne(keys);
+
+            return !string.IsNullOrEmpty(result);
+        }
 
         public static async Task CreateDummyDataBase()
         {
