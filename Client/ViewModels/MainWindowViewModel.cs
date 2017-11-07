@@ -1,14 +1,12 @@
-﻿using System.ComponentModel;
+﻿using Common;
+using System.ComponentModel;
 
 namespace Client.ViewModels
 {
-    public class MainWindowViewModel : INotifyPropertyChanged
+    public class MainWindowViewModel : BasePropertyChanged
     {
         public MainWindowViewModel()
         {
-        }   
-            
-
-        public event PropertyChangedEventHandler PropertyChanged;
+        } 
     }
 }

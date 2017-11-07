@@ -27,7 +27,7 @@ namespace MongoDbConsole
                 .GetAwaiter().GetResult().Result;
 
             //Update a document
-            IDeveloper savedObj = BsonSerializer.Deserialize<DeveloperModel>(savedDoc);
+            DeveloperModel savedObj = BsonSerializer.Deserialize<DeveloperModel>(savedDoc);
             savedObj.CompanyName = "Bosch";
 
             savedObj = Task.Factory.StartNew(async () => await repository.UpdateAsync(savedObj))

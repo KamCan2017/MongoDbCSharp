@@ -4,7 +4,7 @@ namespace Developer
 {
     public static class Factory
     {
-        public static IDeveloper CreateDeveloper()
+        public static DeveloperModel CreateDeveloper()
         {
             var developer = new DeveloperModel
             {

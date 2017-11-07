@@ -1,14 +1,14 @@
-﻿using Developer;
+﻿using Common;
+using Developer;
 using Microsoft.Practices.Prism.Commands;
 using Repository;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows;
 
 namespace Client.Developer
 {
-    public class DeveloperListViewModel : INotifyPropertyChanged
+    public class DeveloperListViewModel : BasePropertyChanged
     {
         private IDeveloperRepository _developerRepository;
         private ObservableCollection<DeveloperModel> _developers;
@@ -38,7 +38,7 @@ namespace Client.Developer
             set
             {
                 _developers = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Developers)));
+                NotifyPropertyChanged(nameof(Developers));
             }
         }
 
@@ -49,7 +49,7 @@ namespace Client.Developer
             set
             {
                 _selectedItem = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedItem)));
+                NotifyPropertyChanged(nameof(SelectedItem));
                 DataExchanger.FireData(_selectedItem, null);
             }
         }
@@ -57,7 +57,6 @@ namespace Client.Developer
 
         public string Filter { get; set; }      
 
-        public event PropertyChangedEventHandler PropertyChanged;
 
        
         public async void LoadData()

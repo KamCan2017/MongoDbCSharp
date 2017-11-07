@@ -1,16 +1,16 @@
 ﻿using Client.Developer.Converter;
+using Common;
 using Developer;
 using Microsoft.Practices.Prism.Commands;
 using MongoDB.Bson;
 using Repository;
 using System;
-using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Client.Developer
 {
-    public class DeveloperViewModel: INotifyPropertyChanged
+    public class DeveloperViewModel: BasePropertyChanged
         {
         private DeveloperModel _developer;
         private DelegateCommand _saveCommand;
@@ -50,7 +50,7 @@ namespace Client.Developer
             set
             {
                 _developer = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Developer)));
+                NotifyPropertyChanged(nameof(Developer));
                 SaveCommand.RaiseCanExecuteChanged();
             }
         }
@@ -71,14 +71,11 @@ namespace Client.Developer
             set
             {
                 _knowledgeList = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(KnowledgeList)));
+                NotifyPropertyChanged(nameof(KnowledgeList));
             }
         }
 
        
-        public event PropertyChangedEventHandler PropertyChanged;
-
-
         
         private async Task<bool> Save()
         {

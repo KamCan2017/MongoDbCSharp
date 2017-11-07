@@ -6,7 +6,7 @@
         xmlns:dviews="clr-namespace:Client.Developer.Views;assembly=Client.Developer"
         mc:Ignorable="d"
         Background="SkyBlue"
-        Title="MongoDb pratice in C#" FontSize="15" Height="350" Width="800">
+        Title="MongoDb pratice in C#" FontSize="15" Height="500" Width="1000">
 
     <Window.Resources>
         <ResourceDictionary>

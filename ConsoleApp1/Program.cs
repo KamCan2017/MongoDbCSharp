@@ -6,7 +6,7 @@ namespace MongoDbConsole
     {
         static void Main(string[] args)
         {
-             // ProgramStarter.DummyCollectionTest();
+            //  ProgramStarter.DummyCollectionTest();
              ProgramStarter.DeveloperCollectionTest();
 
             //ProgramStarter.DepartmentCollectionTest();

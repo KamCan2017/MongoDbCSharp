@@ -27,7 +27,7 @@ namespace Repository
 
             return !string.IsNullOrEmpty(result);
         }
-        public BsonDocument CreateDocument(IDeveloper developer)
+        public BsonDocument CreateDocument(DeveloperModel developer)
         {
             if (developer == null)
                 return null;
@@ -115,7 +115,7 @@ namespace Repository
             return docs;
         }
 
-        public async Task<IDeveloper> FindByIdAsync(ObjectId id)
+        public async Task<DeveloperModel> FindByIdAsync(ObjectId id)
         {
             var collection = MongoClientManager.DataBase.GetCollection<DeveloperModel>(CollectionNames.Developer);
 

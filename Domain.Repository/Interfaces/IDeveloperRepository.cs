@@ -8,12 +8,12 @@ namespace Repository
 {
     public interface IDeveloperRepository
     {
-        BsonDocument CreateDocument(IDeveloper developer);
+        BsonDocument CreateDocument(DeveloperModel developer);
         Task<bool> DeleteAllAsync();
         Task<bool> DeleteByIdAsync(ObjectId id);
         Task<bool> DeletedAsync(IDeveloper entity);
         Task<IEnumerable<DeveloperModel>> FindAllAsync();
-        Task<IDeveloper> FindByIdAsync(ObjectId id);
+        Task<DeveloperModel> FindByIdAsync(ObjectId id);
         Task<IEnumerable<DeveloperModel>> FindByTextSearch(string text);
         Task<IEnumerable<BsonDocument>> GetDocumentFromDeveloperView();
         Task<BsonDocument> InsertDocumentAsync(BsonDocument doc);
