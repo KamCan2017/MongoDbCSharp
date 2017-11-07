@@ -38,7 +38,7 @@ namespace Repository
 
         private static void CheckServerConnection()
         {
-            bool isMongoLive = DataBase.RunCommandAsync((Command<BsonDocument>)"{ping:1}").Wait(5000);
+            bool isMongoLive = DataBase.RunCommandAsync((Command<BsonDocument>)"{ping:1}").Wait(2000);
             if (isMongoLive)
             {
                 // connected
