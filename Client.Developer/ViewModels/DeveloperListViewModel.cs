@@ -76,6 +76,7 @@ namespace Client.Developer
                 if (result)
                 {
                     Developers.Remove(entity);
+                    DataExchanger.FireData(new DeveloperModel(), null);
                 }
             }
             return result;

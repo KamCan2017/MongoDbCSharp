@@ -33,7 +33,7 @@
             <RowDefinition Height="6*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Developer List" FontWeight="Bold" FontSize="28"/>
+        <TextBlock Text="Developers" FontWeight="Bold" FontSize="28"/>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
