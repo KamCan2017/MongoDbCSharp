@@ -3,8 +3,6 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Threading.Tasks;
-using System.Linq;
-using MongoDB.Driver.Core.Clusters;
 
 namespace Repository
 {
@@ -27,18 +25,24 @@ namespace Repository
             //_client = new MongoClient(settings);
             #endregion
 
+            Init();
+        }
+
+        public static IMongoDatabase DataBase { get; private set; }
+
+        private static void Init()
+        {
             _client = new MongoClient("mongodb://localhost:27017");
             DataBase = _client.GetDatabase(DBNames.VDB);
+
             CheckServerConnection();
             CreateViewInDb();
             BuildIndexKeys();
         }
 
-        public static IMongoDatabase DataBase { get; private set; }
-
         private static void CheckServerConnection()
         {
-            bool isMongoLive = DataBase.RunCommandAsync((Command<BsonDocument>)"{ping:1}").Wait(2000);
+            var isMongoLive = DataBase.RunCommandAsync((Command<BsonDocument>)"{ping:1}").Wait(2000);
             if (isMongoLive)
             {
                 // connected
@@ -115,6 +119,8 @@ namespace Repository
             await _client.DropDatabaseAsync(DBNames.Restaurant);
             Console.WriteLine("{0} is deleted.", DBNames.Restaurant);
         }
+
+        
 
     }
 }
