@@ -7,6 +7,7 @@ using Repository;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
+using System;
 
 namespace Client.Developer.ViewModels
 {
@@ -20,7 +21,7 @@ namespace Client.Developer.ViewModels
         private DeveloperModel _selectedItem;
         private readonly IEventAggregator _eventAggregator;
         private readonly IBusyIndicator _busyIndicator;
-
+        private string _filter;
 
         public DeveloperListViewModel(IEventAggregator eventAggregator, IBusyIndicator busyIndicator)
         {
@@ -30,10 +31,15 @@ namespace Client.Developer.ViewModels
             _developerRepository = new DeveloperRepository();
             _deleteCommand = new DelegateCommand<DeveloperModel>(async (item) => await DeleteModel(item));
             _refreshCommand = new DelegateCommand(async() => await LoadData());
-            _filterCommand = new DelegateCommand(async () => await ExecuteFilter());
+            _filterCommand = new DelegateCommand(async () => await ExecuteFilter(), CanExecuteFilter);
+            _eventAggregator.GetEvent<UpdateDeveloperListPubEvent>().Subscribe(async() => await LoadData());
         }
 
-       
+        private bool CanExecuteFilter()
+        {
+            return !String.IsNullOrEmpty(Filter) && !String.IsNullOrWhiteSpace(Filter);
+        }
+
         public DelegateCommand<DeveloperModel> DeleteCommand { get { return _deleteCommand; } }
 
         public DelegateCommand UpdateCommand { get { return _refreshCommand; } }
@@ -64,7 +70,16 @@ namespace Client.Developer.ViewModels
         }
 
 
-        public string Filter { get; set; }      
+        public string Filter
+        {
+            get { return _filter; }
+            set
+            {
+                _filter = value;
+                NotifyPropertyChanged(nameof(Filter));
+                FilterCommand.RaiseCanExecuteChanged();
+            }
+        }      
 
 
        

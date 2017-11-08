@@ -19,18 +19,20 @@ namespace Client.Developer.ViewModels
 
         private IDeveloperRepository _developerRepository;
         private  readonly IBusyIndicator _busyIndicator;
+        private readonly IEventAggregator _eventAggregator;
         private string _knowledgeList;
 
         public DeveloperViewModel(IEventAggregator eventAggregator, IBusyIndicator busyIndicator)
         {
             _busyIndicator = busyIndicator;
+            _eventAggregator = eventAggregator;
             _developerRepository = new DeveloperRepository();
             _saveCommand = new DelegateCommand(async() => await Save(),  CanExecuteSave);
             _cancelCommand = new DelegateCommand(Cancel);
 
             _developer = new DeveloperModel();
 
-            eventAggregator.GetEvent<EntityEditPubEvent>().Subscribe(data => SetCurrentModel(data));
+            _eventAggregator.GetEvent<EntityEditPubEvent>().Subscribe(data => SetCurrentModel(data));
         }
 
         private bool CanExecuteSave()
@@ -80,6 +82,7 @@ namespace Client.Developer.ViewModels
         
         private async Task<bool> Save()
         {
+            bool result = false;
             try
             {
                 _busyIndicator.Busy = true;
@@ -113,8 +116,8 @@ namespace Client.Developer.ViewModels
                 Developer = new DeveloperModel();
                 KnowledgeList = string.Empty;
 
-
-                return true;
+                result = true;
+                return result;
 
             }
             catch (System.Exception)
@@ -125,6 +128,9 @@ namespace Client.Developer.ViewModels
             finally
             {
                 _busyIndicator.Busy = false;
+                if(result)
+                    //Publish event to update the developer list
+                    _eventAggregator.GetEvent<UpdateDeveloperListPubEvent>().Publish();
             }
 
         }

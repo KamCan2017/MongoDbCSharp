@@ -11,7 +11,6 @@ using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Unity;
 using System;
-using System.ComponentModel;
 using System.Windows;
 
 namespace Client
