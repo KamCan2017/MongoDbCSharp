@@ -17,6 +17,8 @@ namespace Client
         {
             base.OnStartup(e);
             this.DispatcherUnhandledException += App_DispatcherUnhandledException;
+            Bootstrapper bootstrapper = new Bootstrapper();
+            bootstrapper.Run();
         }
 
         private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)

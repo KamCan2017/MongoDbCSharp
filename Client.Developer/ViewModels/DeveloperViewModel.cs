@@ -1,14 +1,14 @@
 ﻿using Client.Developer.Converter;
 using Common;
 using Developer;
-using Microsoft.Practices.Prism.Commands;
 using MongoDB.Bson;
+using Prism.Commands;
+using Prism.Events;
 using Repository;
-using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace Client.Developer
+namespace Client.Developer.ViewModels
 {
     public class DeveloperViewModel: BasePropertyChanged
         {
@@ -19,14 +19,15 @@ namespace Client.Developer
         private IDeveloperRepository _developerRepository;
         private string _knowledgeList;
 
-        public DeveloperViewModel()
+        public DeveloperViewModel(IEventAggregator eventAggregator)
         {
             _developerRepository = new DeveloperRepository();
             _saveCommand = new DelegateCommand(async() => await Save(),  CanExecuteSave);
             _cancelCommand = new DelegateCommand(Cancel);
 
             _developer = new DeveloperModel();
-            DataExchanger.FireData += GetData;
+
+            eventAggregator.GetEvent<EntityEditPubEvent>().Subscribe(data => SetCurrentModel(data));
         }
 
         private bool CanExecuteSave()
@@ -34,14 +35,11 @@ namespace Client.Developer
             return Developer != null;
         }
 
-        private void GetData(object data, EventArgs e)
+        private void SetCurrentModel(DeveloperModel data)
         {
-            if (data is DeveloperModel)
-            {
-                Developer = data as DeveloperModel;
-                KnowledgeConverter converter = new KnowledgeConverter();
-                KnowledgeList = converter.ExtractKnowledge(Developer.KnowledgeBase);
-            }
+            Developer = data as DeveloperModel;
+            KnowledgeConverter converter = new KnowledgeConverter();
+            KnowledgeList = converter.ExtractKnowledge(Developer.KnowledgeBase);
         }
 
         public DeveloperModel Developer

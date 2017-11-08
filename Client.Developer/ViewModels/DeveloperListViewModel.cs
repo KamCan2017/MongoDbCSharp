@@ -1,12 +1,13 @@
 ﻿using Common;
 using Developer;
-using Microsoft.Practices.Prism.Commands;
+using Prism.Commands;
+using Prism.Events;
 using Repository;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Client.Developer
+namespace Client.Developer.ViewModels
 {
     public class DeveloperListViewModel : BasePropertyChanged
     {
@@ -16,12 +17,14 @@ namespace Client.Developer
         private DelegateCommand _refreshCommand;
         private DelegateCommand _filterCommand;
         private DeveloperModel _selectedItem;
+        private IEventAggregator _eventAggregator;
 
-        public DeveloperListViewModel()
+        public DeveloperListViewModel(IEventAggregator eventAggregator)
         {
+            _eventAggregator = eventAggregator;
             _developerRepository = new DeveloperRepository();
             _deleteCommand = new DelegateCommand<DeveloperModel>(async (item) => await DeleteModel(item));
-            _refreshCommand = new DelegateCommand(() => LoadData());
+            _refreshCommand = new DelegateCommand(async() => await LoadData());
             _filterCommand = new DelegateCommand(async () => await ExecuteFilter());
         }
 
@@ -50,7 +53,8 @@ namespace Client.Developer
             {
                 _selectedItem = value;
                 NotifyPropertyChanged(nameof(SelectedItem));
-                DataExchanger.FireData(_selectedItem, null);
+                if(_selectedItem != null)
+                  _eventAggregator.GetEvent<EntityEditPubEvent>().Publish(_selectedItem);
             }
         }
 
@@ -59,7 +63,7 @@ namespace Client.Developer
 
 
        
-        public async void LoadData()
+        private async Task LoadData()
         {
             var developers = await _developerRepository.FindAllAsync();
             Developers = new ObservableCollection<DeveloperModel>(developers);
@@ -76,7 +80,7 @@ namespace Client.Developer
                 if (result)
                 {
                     Developers.Remove(entity);
-                    DataExchanger.FireData(new DeveloperModel(), null);
+                    _eventAggregator.GetEvent<EntityEditPubEvent>().Publish(new DeveloperModel());
                 }
             }
             return result;

@@ -23,7 +23,6 @@ namespace Client.Developer.Views
         public DeveloperList()
         {
             InitializeComponent();
-            DataContext = new DeveloperListViewModel();
         }
     }
 }
