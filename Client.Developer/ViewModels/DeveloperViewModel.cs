@@ -1,5 +1,6 @@
 ﻿using Client.Developer.Converter;
 using Common;
+using Core;
 using Developer;
 using MongoDB.Bson;
 using Prism.Commands;
@@ -17,10 +18,12 @@ namespace Client.Developer.ViewModels
         private ICommand _cancelCommand;
 
         private IDeveloperRepository _developerRepository;
+        private  readonly IBusyIndicator _busyIndicator;
         private string _knowledgeList;
 
-        public DeveloperViewModel(IEventAggregator eventAggregator)
+        public DeveloperViewModel(IEventAggregator eventAggregator, IBusyIndicator busyIndicator)
         {
+            _busyIndicator = busyIndicator;
             _developerRepository = new DeveloperRepository();
             _saveCommand = new DelegateCommand(async() => await Save(),  CanExecuteSave);
             _cancelCommand = new DelegateCommand(Cancel);
@@ -77,32 +80,53 @@ namespace Client.Developer.ViewModels
         
         private async Task<bool> Save()
         {
-            if (!Developer.IsValid)
-                return false;
-
-            var parameters = _knowledgeList.Split(',');
-            if (parameters != null && parameters.Length > 0)
+            try
             {
-                if (Developer.KnowledgeBase == null)
-                    Developer.KnowledgeBase = new System.Collections.Generic.List<KnowledgeModel>();
+                _busyIndicator.Busy = true;
 
-                Developer.KnowledgeBase.Clear();
+                if (!Developer.IsValid)
+                    return false;
 
-                foreach (string str in parameters)
+
+                var parameters = _knowledgeList.Split(',');
+                if (parameters != null && parameters.Length > 0)
                 {
-                    if (!string.IsNullOrEmpty(str))
-                        Developer.KnowledgeBase.Add(new KnowledgeModel() { Technology = str });
+                    if (Developer.KnowledgeBase == null)
+                        Developer.KnowledgeBase = new System.Collections.Generic.List<KnowledgeModel>();
+
+                    Developer.KnowledgeBase.Clear();
+
+                    foreach (string str in parameters)
+                    {
+                        if (!string.IsNullOrEmpty(str))
+                            Developer.KnowledgeBase.Add(new KnowledgeModel() { Technology = str });
+                    }
                 }
+
+                if (Developer.ID == ObjectId.Empty)
+                    await _developerRepository.SaveAsync(Developer);
+                else
+                    await _developerRepository.UpdateAsync(Developer);
+
+                await Task.Delay(2000);
+
+                Developer = new DeveloperModel();
+                KnowledgeList = string.Empty;
+
+
+                return true;
+
+            }
+            catch (System.Exception)
+            {
+                throw;
             }
 
-            if (Developer.ID == ObjectId.Empty)
-                await _developerRepository.SaveAsync(Developer);
-            else
-                await _developerRepository.UpdateAsync(Developer);
+            finally
+            {
+                _busyIndicator.Busy = false;
+            }
 
-            Developer = new DeveloperModel();
-            KnowledgeList = string.Empty;
-            return true;
         }
 
         private void Cancel()

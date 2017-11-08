@@ -1,4 +1,5 @@
 ﻿using Common;
+using Core;
 using Developer;
 using Prism.Commands;
 using Prism.Events;
@@ -17,11 +18,15 @@ namespace Client.Developer.ViewModels
         private DelegateCommand _refreshCommand;
         private DelegateCommand _filterCommand;
         private DeveloperModel _selectedItem;
-        private IEventAggregator _eventAggregator;
+        private readonly IEventAggregator _eventAggregator;
+        private readonly IBusyIndicator _busyIndicator;
 
-        public DeveloperListViewModel(IEventAggregator eventAggregator)
+
+        public DeveloperListViewModel(IEventAggregator eventAggregator, IBusyIndicator busyIndicator)
         {
             _eventAggregator = eventAggregator;
+            _busyIndicator = busyIndicator;
+
             _developerRepository = new DeveloperRepository();
             _deleteCommand = new DelegateCommand<DeveloperModel>(async (item) => await DeleteModel(item));
             _refreshCommand = new DelegateCommand(async() => await LoadData());
@@ -65,8 +70,13 @@ namespace Client.Developer.ViewModels
        
         private async Task LoadData()
         {
+            _busyIndicator.Busy = true;
+
+            await Task.Delay(2000);
             var developers = await _developerRepository.FindAllAsync();
             Developers = new ObservableCollection<DeveloperModel>(developers);
+
+            _busyIndicator.Busy = false;
         }
 
         private async Task<bool> DeleteModel(DeveloperModel entity)
@@ -76,12 +86,16 @@ namespace Client.Developer.ViewModels
             var dialogres = Xceed.Wpf.Toolkit.MessageBox.Show("Delete the selected entity?", "Delete entity", MessageBoxButton.YesNo);
             if (dialogres == System.Windows.MessageBoxResult.Yes)
             {
+                _busyIndicator.Busy = true;
                 result = await _developerRepository.DeletedAsync(entity);
+                await Task.Delay(2000);
                 if (result)
                 {
                     Developers.Remove(entity);
                     _eventAggregator.GetEvent<EntityEditPubEvent>().Publish(new DeveloperModel());
                 }
+
+                _busyIndicator.Busy = false;
             }
             return result;
         }

@@ -8,8 +8,7 @@
              mvvm:ViewModelLocator.AutoWireViewModel="true"
              d:DataContext="{d:DesignInstance viewModels:DeveloperViewModel}"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300"
-             Visibility="{Binding Visible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+             d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>

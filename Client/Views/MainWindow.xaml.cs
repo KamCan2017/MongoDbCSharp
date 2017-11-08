@@ -1,7 +1,6 @@
-﻿using Client.ViewModels;
-using System.Windows;
+﻿using System.Windows;
 
-namespace Client
+namespace Client.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

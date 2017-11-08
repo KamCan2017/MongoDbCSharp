@@ -118,9 +118,7 @@ namespace Repository
         {
             await _client.DropDatabaseAsync(DBNames.Restaurant);
             Console.WriteLine("{0} is deleted.", DBNames.Restaurant);
-        }
-
-        
+        }        
 
     }
 }

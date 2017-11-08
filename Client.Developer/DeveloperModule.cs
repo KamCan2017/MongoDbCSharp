@@ -1,7 +1,6 @@
 ﻿using Client.Developer.ViewModels;
 using Client.Developer.Views;
 using Microsoft.Practices.Unity;
-using Microsoft.Practices.Unity.InterceptionExtension;
 using Prism.Modularity;
 namespace Client.Developer
 {

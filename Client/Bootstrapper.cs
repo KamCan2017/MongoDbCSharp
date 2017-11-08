@@ -1,4 +1,7 @@
 ﻿using Client.Developer;
+using Client.ViewModels;
+using Client.Views;
+using Core;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.InterceptionExtension;
@@ -8,6 +11,7 @@ using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Unity;
 using System;
+using System.ComponentModel;
 using System.Windows;
 
 namespace Client
@@ -21,6 +25,8 @@ namespace Client
         {
             base.ConfigureContainer();
             Container.AddNewExtension<Interception>();
+            Container.RegisterType<IBusyIndicator, MainWindowViewModel>(new ContainerControlledLifetimeManager());
+         
 
             RegisterTypeIfMissing(typeof(IEventAggregator), typeof(EventAggregator), true);
 
