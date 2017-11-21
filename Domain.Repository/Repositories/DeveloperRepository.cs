@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace Repository
 {
@@ -196,13 +197,11 @@ namespace Repository
         {
             if(entity.KnowledgeIds.Any())
             {
-                if (entity.KnowledgeBase == null)
-                    entity.KnowledgeBase = new List<KnowledgeModel>();
                 var collection = MongoClientManager.DataBase.GetCollection<KnowledgeModel>(CollectionNames.Knowledge);
                 var filter = Builders<KnowledgeModel>.Filter.AnyIn("_id", entity.KnowledgeIds.ToArray());
                 var doc = filter.ToBsonDocument();
                 var entities = await collection.Find(filter).ToListAsync();
-                entity.KnowledgeBase.AddRange(entities);
+                entity.KnowledgeBase = new ObservableCollection<KnowledgeModel>(entities);
             }
         }
     }

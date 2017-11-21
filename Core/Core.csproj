@@ -55,7 +55,9 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Assets\Images\remove.png" />
+  </ItemGroup>
   <ItemGroup>
     <Page Include="Assets\Styles.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -64,6 +66,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Images\refresh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\add.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

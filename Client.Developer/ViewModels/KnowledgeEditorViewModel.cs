@@ -47,7 +47,12 @@ namespace Client.Developer.ViewModels
                     Technology.APSNet,
                     Technology.NoSQL,
                     Technology.QT,
-                    Technology.WPF
+                    Technology.WPF,
+                    Technology.Apps,
+                    Technology.UWP,
+                    Technology.WinForms,
+                    Technology.Xamarin,
+                    Technology.ImageProcessing,
                 };
             }
         }
@@ -65,6 +70,8 @@ namespace Client.Developer.ViewModels
                     ProgrammingLanguage.Java,
                     ProgrammingLanguage.Python,
                     ProgrammingLanguage.TypScript,
+                    ProgrammingLanguage.Catia,
+                    ProgrammingLanguage.Xml
                 };
             }
         }

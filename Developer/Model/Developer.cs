@@ -3,6 +3,7 @@ using Common;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Developer
 {
@@ -10,11 +11,12 @@ namespace Developer
     {
         private string _name;
         private string _companyName;
+        private ObservableCollection<KnowledgeModel> _knowledgeCollection;
 
         [BsonConstructor]
         public DeveloperModel()
         {
-            KnowledgeBase = new List<KnowledgeModel>();
+            KnowledgeBase = new ObservableCollection<KnowledgeModel>();
             KnowledgeIds = new List<ObjectId>();
         }
 
@@ -43,7 +45,15 @@ namespace Developer
             }
         }
 
-        public List<KnowledgeModel> KnowledgeBase { get; set; }
+        public ObservableCollection<KnowledgeModel> KnowledgeBase
+        {
+            get { return _knowledgeCollection; }
+            set
+            {
+                _knowledgeCollection = value;
+                NotifyPropertyChanged(nameof(KnowledgeBase));
+            }
+        }
 
         [BsonElement("knowledge_Ids")]
         public List<ObjectId> KnowledgeIds { get; set; }

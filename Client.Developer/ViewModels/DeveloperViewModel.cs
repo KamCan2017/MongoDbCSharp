@@ -7,10 +7,10 @@ using Prism.Commands;
 using Prism.Events;
 using Prism.Interactivity.InteractionRequest;
 using Repository;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using System;
-using System.Linq;
 
 namespace Client.Developer.ViewModels
 {
@@ -28,6 +28,8 @@ namespace Client.Developer.ViewModels
         private string _knowledgeList;
         private DelegateCommand _addKnowledgeCommand;
         private InteractionRequest<Confirmation> _interactionRequest;
+        private DelegateCommand<KnowledgeModel> _removeKnowledgeCommand;
+        private int _selectedIndex;
 
         public DeveloperViewModel(IEventAggregator eventAggregator, IBusyIndicator busyIndicator)
         {
@@ -39,15 +41,17 @@ namespace Client.Developer.ViewModels
             _saveCommand = new DelegateCommand(async() => await Save(),  CanExecuteSave);
             _cancelCommand = new DelegateCommand(Cancel);
             _addKnowledgeCommand = new DelegateCommand(OpenKnowledgeEditor, CanOpenKnowledgeEditor);
+            _removeKnowledgeCommand = new DelegateCommand<KnowledgeModel>(item => RemoveKnowledge(item));
+
             _interactionRequest = new InteractionRequest<Confirmation>();
 
             Developer = new DeveloperModel();
+            SeletedIndex = 0;
 
             _eventAggregator.GetEvent<EntityEditPubEvent>().Subscribe(data => SetCurrentModel(data));
             _eventAggregator.GetEvent<AddKnowledgePubEvent>().Subscribe(data => AddKnowledge(data));
         }
 
-      
 
         public IInteractionRequest InteractionRequest
         {
@@ -72,11 +76,6 @@ namespace Client.Developer.ViewModels
             }
         }
 
-        private void _developer_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            SaveCommand.RaiseCanExecuteChanged();
-            AddKnowledgeCommand.RaiseCanExecuteChanged();
-        }
 
         public DelegateCommand AddKnowledgeCommand
         {
@@ -93,14 +92,25 @@ namespace Client.Developer.ViewModels
             get { return _cancelCommand; }
         }
 
-        public string KnowledgeList
+        public DelegateCommand<KnowledgeModel> RemoveKnowledgeCommand
         {
-            get { return _knowledgeList; }
+            get { return _removeKnowledgeCommand; }
+        }      
+        
+        public int SeletedIndex
+        {
+            get { return _selectedIndex; }
             set
             {
-                _knowledgeList = value;
-                NotifyPropertyChanged(nameof(KnowledgeList));
+                _selectedIndex = value;
+                NotifyPropertyChanged(nameof(SeletedIndex));
             }
+        }
+
+        private void _developer_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            SaveCommand.RaiseCanExecuteChanged();
+            AddKnowledgeCommand.RaiseCanExecuteChanged();
         }
 
         private void OpenKnowledgeEditor()
@@ -135,7 +145,6 @@ namespace Client.Developer.ViewModels
         {
             Developer = data as DeveloperModel;
             KnowledgeConverter converter = new KnowledgeConverter();
-            KnowledgeList = converter.ExtractKnowledge(Developer.KnowledgeBase);
         }
 
         private async Task<bool> Save()
@@ -167,7 +176,6 @@ namespace Client.Developer.ViewModels
                 await Task.Delay(2000);
 
                 Developer = new DeveloperModel();
-                KnowledgeList = string.Empty;
 
                 result = true;
                 return result;
@@ -191,17 +199,29 @@ namespace Client.Developer.ViewModels
         private void Cancel()
         {
             Developer = new DeveloperModel();
-            KnowledgeList = string.Empty;
+
+            //Publish event to update the developer list
+            _eventAggregator.GetEvent<UpdateDeveloperListPubEvent>().Publish();
         }
 
         private void AddKnowledge(KnowledgeModel data)
         {
             if(Developer != null)
             {
+                if (Developer.KnowledgeBase == null)
+                    Developer.KnowledgeBase = new ObservableCollection<KnowledgeModel>();
+
                 Developer.KnowledgeBase.Add(data);
-                KnowledgeConverter converter = new KnowledgeConverter();
-                KnowledgeList = converter.ExtractKnowledge(Developer.KnowledgeBase);
+                SeletedIndex = 0;
             }
         }
+
+        private void RemoveKnowledge(KnowledgeModel item)
+        {
+            Developer.KnowledgeBase.Remove(item);
+            if (item.ID != ObjectId.Empty)
+                Developer.KnowledgeIds.Remove(item.ID);
+        }
+
     }
 }

@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True"
-             Background="LightGray" Height="250" Width="400"
+             Background="LightGray" MaxHeight="250" MaxWidth="400"
              Title="Knowledge Editor" x:Name="window">
     <Grid>
         <Grid.ColumnDefinitions>

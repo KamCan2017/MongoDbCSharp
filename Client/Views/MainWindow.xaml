@@ -9,7 +9,7 @@
         mvvm:ViewModelLocator.AutoWireViewModel="true"
         d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}"
         mc:Ignorable="d"
-        Background="SkyBlue"
+        Background="LightSkyBlue"
         Title="MongoDb pratice in C#" FontSize="15" Height="500" Width="1000">
 
     <Window.Resources>
