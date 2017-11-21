@@ -27,6 +27,10 @@ namespace Repository
         {
             var collection = MongoClientManager.DataBase.GetCollection<DeveloperModel>(CollectionNames.Developer);
             var model = entity as DeveloperModel;
+            if (model.KnowledgeBase != null && model.KnowledgeBase.Any())
+            {
+                model.KnowledgeIds = model.KnowledgeBase.Select(p => p.ID).ToList();
+            }
             model.KnowledgeBase = null;
 
             await collection.InsertOneAsync(model);
@@ -45,7 +49,11 @@ namespace Repository
             var collection = MongoClientManager.DataBase.GetCollection<DeveloperModel>(CollectionNames.Developer);
 
             //copy the array list to update separatly the array list
-            var array = entity.KnowledgeIds.ToList();
+            var array = new List<ObjectId>();
+            if (entity.KnowledgeBase != null && entity.KnowledgeBase.Any())
+            {
+                array = entity.KnowledgeBase.Select(p => p.ID).ToList();
+            }
             entity.KnowledgeIds = null;
             entity.KnowledgeBase = null;
 

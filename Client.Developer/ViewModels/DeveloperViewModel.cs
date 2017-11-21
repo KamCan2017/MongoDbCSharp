@@ -163,7 +163,6 @@ namespace Client.Developer.ViewModels
                     foreach(var entity in knowledgeToSave)
                     {
                         var savedObj = await _knowledgeRepository.SaveAsync(entity);
-                        Developer.KnowledgeIds.Add(savedObj.ID);
                     }
                 }
 
@@ -210,6 +209,11 @@ namespace Client.Developer.ViewModels
                 if (Developer.KnowledgeBase == null)
                     Developer.KnowledgeBase = new ObservableCollection<KnowledgeModel>();
 
+                if(Developer.KnowledgeBase.Any(p => p.ID == data.ID)
+                    || Developer.KnowledgeBase.Any(p => p.Language == data.Language && p.Technology == data.Technology))
+                {
+                    return;
+                }
                 Developer.KnowledgeBase.Add(data);
                 SeletedIndex = 0;
             }
@@ -218,8 +222,6 @@ namespace Client.Developer.ViewModels
         private void RemoveKnowledge(KnowledgeModel item)
         {
             Developer.KnowledgeBase.Remove(item);
-            if (item.ID != ObjectId.Empty)
-                Developer.KnowledgeIds.Remove(item.ID);
         }
 
     }
