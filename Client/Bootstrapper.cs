@@ -26,7 +26,6 @@ namespace Client
             Container.AddNewExtension<Interception>();
             Container.RegisterType<IBusyIndicator, MainWindowViewModel>(new ContainerControlledLifetimeManager());
          
-
             RegisterTypeIfMissing(typeof(IEventAggregator), typeof(EventAggregator), true);
 
             ModuleManager moduleManager = Container.TryResolve<ModuleManager>();

@@ -10,4 +10,9 @@ namespace Client.Developer
     public class UpdateDeveloperListPubEvent : PubSubEvent
     {
     }
+
+    public class AddKnowledgePubEvent : PubSubEvent<KnowledgeModel>
+    {
+    }
+
 }

@@ -1,0 +1,35 @@
+﻿<Window x:Class="Client.Developer.Views.KnowledgeEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             Background="LightGray" Height="250" Width="400"
+             Title="Knowledge Editor" x:Name="window">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="7*"/>   
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        
+        <TextBlock Text="Technoloy" Grid.Row="0" Grid.Column="0" Margin="10"/>
+        <ComboBox Grid.Row="0" Grid.Column="1" Margin="10" VerticalAlignment="Bottom" ItemsSource="{Binding Technologies}"
+                  SelectedItem="{Binding Knowledge.Technology}"/>
+
+        <TextBlock Text="Language" Grid.Row="1" Grid.Column="0" Margin="10"/>
+        <ComboBox Grid.Row="1" Grid.Column="1" Margin="10" VerticalAlignment="Bottom" ItemsSource="{Binding Languages}"
+                  SelectedItem="{Binding Knowledge.Language}"/>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Right">
+            <Button Content="Accept" IsDefault="False" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=window}" Width="120" HorizontalAlignment="Right" Margin="10"/>
+            <Button Content="Cancel" IsCancel="True" Width="120" HorizontalAlignment="Right" Margin="10"/>
+        </StackPanel>
+
+    </Grid>
+</Window>

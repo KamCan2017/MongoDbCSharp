@@ -11,6 +11,7 @@ namespace Developer
         public DeveloperModel()
         {
             KnowledgeBase = new List<KnowledgeModel>();
+            KnowledgeIds = new List<ObjectId>();
         }
 
         [BsonId]
@@ -22,8 +23,10 @@ namespace Developer
         [BsonElement("company_name")]
         public string CompanyName { get; set; }
 
-        [BsonElement("knowledge_base")]
         public List<KnowledgeModel> KnowledgeBase { get; set; }
+
+        [BsonElement("knowledge_Ids")]
+        public List<ObjectId> KnowledgeIds { get; set; }
 
         public bool IsValid
         {

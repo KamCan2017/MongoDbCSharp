@@ -5,9 +5,12 @@ using Developer;
 using MongoDB.Bson;
 using Prism.Commands;
 using Prism.Events;
+using Prism.Interactivity.InteractionRequest;
 using Repository;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System;
+using System.Linq;
 
 namespace Client.Developer.ViewModels
 {
@@ -18,33 +21,37 @@ namespace Client.Developer.ViewModels
         private ICommand _cancelCommand;
 
         private IDeveloperRepository _developerRepository;
-        private  readonly IBusyIndicator _busyIndicator;
+        private IKnowledgeRepository _knowledgeRepository;
+
+        private readonly IBusyIndicator _busyIndicator;
         private readonly IEventAggregator _eventAggregator;
         private string _knowledgeList;
+        private DelegateCommand _addKnowledgeCommand;
+        private InteractionRequest<Confirmation> _interactionRequest;
 
         public DeveloperViewModel(IEventAggregator eventAggregator, IBusyIndicator busyIndicator)
         {
             _busyIndicator = busyIndicator;
             _eventAggregator = eventAggregator;
             _developerRepository = new DeveloperRepository();
+            _knowledgeRepository = new KnowledgeRepository();
+
             _saveCommand = new DelegateCommand(async() => await Save(),  CanExecuteSave);
             _cancelCommand = new DelegateCommand(Cancel);
+            _addKnowledgeCommand = new DelegateCommand(OpenKnowledgeEditor);
+            _interactionRequest = new InteractionRequest<Confirmation>();
 
             _developer = new DeveloperModel();
 
             _eventAggregator.GetEvent<EntityEditPubEvent>().Subscribe(data => SetCurrentModel(data));
+            _eventAggregator.GetEvent<AddKnowledgePubEvent>().Subscribe(data => AddKnowledge(data));
         }
 
-        private bool CanExecuteSave()
-        {
-            return Developer != null;
-        }
+       
 
-        private void SetCurrentModel(DeveloperModel data)
+        public IInteractionRequest InteractionRequest
         {
-            Developer = data as DeveloperModel;
-            KnowledgeConverter converter = new KnowledgeConverter();
-            KnowledgeList = converter.ExtractKnowledge(Developer.KnowledgeBase);
+            get { return _interactionRequest; }
         }
 
         public DeveloperModel Developer
@@ -56,6 +63,11 @@ namespace Client.Developer.ViewModels
                 NotifyPropertyChanged(nameof(Developer));
                 SaveCommand.RaiseCanExecuteChanged();
             }
+        }
+
+        public DelegateCommand AddKnowledgeCommand
+        {
+            get { return _addKnowledgeCommand; }
         }
 
         public DelegateCommand SaveCommand
@@ -78,8 +90,36 @@ namespace Client.Developer.ViewModels
             }
         }
 
-       
-        
+        private void OpenKnowledgeEditor()
+        {
+            _interactionRequest.Raise(
+            new Confirmation(),
+            OnWindowClosed);
+        }
+
+        private void OnWindowClosed(Confirmation confirmation)
+        {
+            if (confirmation.Confirmed)
+            {
+                //perform the confirmed action...
+            }
+            else
+            {
+
+            }
+        }
+        private bool CanExecuteSave()
+        {
+            return Developer != null;
+        }
+
+        private void SetCurrentModel(DeveloperModel data)
+        {
+            Developer = data as DeveloperModel;
+            KnowledgeConverter converter = new KnowledgeConverter();
+            KnowledgeList = converter.ExtractKnowledge(Developer.KnowledgeBase);
+        }
+
         private async Task<bool> Save()
         {
             bool result = false;
@@ -90,19 +130,14 @@ namespace Client.Developer.ViewModels
                 if (!Developer.IsValid)
                     return false;
 
-
-                var parameters = _knowledgeList.Split(',');
-                if (parameters != null && parameters.Length > 0)
+                //Save the new knowledge
+                var knowledgeToSave = Developer.KnowledgeBase.Where(p => p.ID == ObjectId.Empty);
+                if (knowledgeToSave.Any())
                 {
-                    if (Developer.KnowledgeBase == null)
-                        Developer.KnowledgeBase = new System.Collections.Generic.List<KnowledgeModel>();
-
-                    Developer.KnowledgeBase.Clear();
-
-                    foreach (string str in parameters)
+                    foreach(var entity in knowledgeToSave)
                     {
-                        if (!string.IsNullOrEmpty(str))
-                            Developer.KnowledgeBase.Add(new KnowledgeModel() { Technology = str });
+                        var savedObj = await _knowledgeRepository.SaveAsync(entity);
+                        Developer.KnowledgeIds.Add(savedObj.ID);
                     }
                 }
 
@@ -139,6 +174,16 @@ namespace Client.Developer.ViewModels
         {
             Developer = new DeveloperModel();
             KnowledgeList = string.Empty;
+        }
+
+        private void AddKnowledge(KnowledgeModel data)
+        {
+            if(Developer != null)
+            {
+                Developer.KnowledgeBase.Add(data);
+                KnowledgeConverter converter = new KnowledgeConverter();
+                KnowledgeList = converter.ExtractKnowledge(Developer.KnowledgeBase);
+            }
         }
     }
 }

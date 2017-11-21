@@ -25,8 +25,10 @@ namespace Repository
         public async Task<IDeveloper> SaveAsync(IDeveloper entity)
         {
             var collection = MongoClientManager.DataBase.GetCollection<DeveloperModel>(CollectionNames.Developer);
+            var model = entity as DeveloperModel;
+            model.KnowledgeBase = null;
 
-            await collection.InsertOneAsync(entity as DeveloperModel);
+            await collection.InsertOneAsync(model);
             Console.WriteLine("document added: " + entity.ToJson());
 
             var filter = new BsonDocument();
@@ -42,13 +44,14 @@ namespace Repository
             var collection = MongoClientManager.DataBase.GetCollection<DeveloperModel>(CollectionNames.Developer);
 
             //copy the array list to update separatly the array list
-            var array = entity.KnowledgeBase.ToList();
+            var array = entity.KnowledgeIds.ToList();
+            entity.KnowledgeIds = null;
             entity.KnowledgeBase = null;
 
             await collection.ReplaceOneAsync(d => d.ID == entity.ID, entity);
 
             //update separatly the array list
-            var update = Builders<DeveloperModel>.Update.Set(p => p.KnowledgeBase, array);
+            var update = Builders<DeveloperModel>.Update.Set(p => p.KnowledgeIds, array);
             await collection.UpdateOneAsync(d => d.ID == entity.ID, update);
 
             Console.WriteLine("document updated: " + entity.ToJson());
@@ -95,10 +98,16 @@ namespace Repository
             var collection = MongoClientManager.DataBase.GetCollection<DeveloperModel>(CollectionNames.Developer);
             var filter = new BsonDocument();
 
-            var docs = await collection.Find(filter).ToListAsync();
-            Console.WriteLine("developers count: " + docs.Count);
-
-            return docs;
+            var entities = await collection.Find(filter).ToListAsync();
+            Console.WriteLine("developers count: " + entities.Count);
+            if(entities.Any())
+            {
+                foreach(var entity in entities)
+                {
+                  await FillKnowledge(entity);
+                }
+            }
+            return entities;
         }
 
         public async Task<DeveloperModel> FindByIdAsync(ObjectId id)
@@ -106,7 +115,11 @@ namespace Repository
             var collection = MongoClientManager.DataBase.GetCollection<DeveloperModel>(CollectionNames.Developer);
 
             var result = await collection.FindAsync(d => d.ID == id);
-            return result.FirstOrDefault();
+            var entity = result.FirstOrDefault();
+            if (entity != null)
+                await FillKnowledge(entity);
+
+            return entity;
         }
 
 
@@ -159,7 +172,15 @@ namespace Repository
             var collection = MongoClientManager.DataBase.GetCollection<DeveloperModel>(CollectionNames.Developer);
 
             var filter = Builders<DeveloperModel>.Filter.Text(text);
-            return await collection.Find(filter).ToListAsync();
+            var entities = await collection.Find(filter).ToListAsync();
+            if (entities.Any())
+            {
+                foreach (var entity in entities)
+                {
+                    await FillKnowledge(entity);
+                }
+            }
+            return entities;
         }
 
         public async Task<IEnumerable<BsonDocument>> GetDocumentFromDeveloperView()
@@ -169,6 +190,21 @@ namespace Repository
 
             var docs = await collection.Find(filter).ToListAsync();
             return docs;
+        }
+
+        private async Task FillKnowledge(DeveloperModel entity)
+        {
+            if(entity.KnowledgeIds.Any())
+            {
+                if (entity.KnowledgeBase == null)
+                    entity.KnowledgeBase = new List<KnowledgeModel>();
+                var collection = MongoClientManager.DataBase.GetCollection<KnowledgeModel>(CollectionNames.Knowledge);
+                foreach(ObjectId id in entity.KnowledgeIds)
+                {
+                    var result = await collection.FindAsync(d => d.ID == id);
+                    entity.KnowledgeBase.Add(result.FirstOrDefault());
+                }
+            }
         }
     }
 }

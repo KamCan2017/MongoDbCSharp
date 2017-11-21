@@ -20,6 +20,8 @@
         public const string Dummys = "Dummys";
 
         public const string Department = "Department";
+
+        public const string Knowledge = "Knowledge";
         #endregion
 
         #region Restaurant Db

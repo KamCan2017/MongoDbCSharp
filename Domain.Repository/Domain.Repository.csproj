@@ -58,6 +58,8 @@
     <Compile Include="MongoClientManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\DepartmentRepository.cs" />
+    <Compile Include="Interfaces\IKnowledgeRepository.cs" />
+    <Compile Include="Repositories\KnowledgeRepository.cs" />
     <Compile Include="Repositories\DeveloperRepository.cs" />
     <Compile Include="Repositories\DummyRepository.cs" />
   </ItemGroup>

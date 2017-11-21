@@ -5,6 +5,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:mvvm="http://prismlibrary.com/"
              xmlns:viewModels="clr-namespace:Client.Developer.ViewModels"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:views="clr-namespace:Client.Developer.Views"
+             xmlns:actions="clr-namespace:Client.Developer.Actions"
              mvvm:ViewModelLocator.AutoWireViewModel="true"
              d:DataContext="{d:DesignInstance viewModels:DeveloperViewModel}"
              mc:Ignorable="d" 
@@ -38,7 +42,18 @@
 
             <TextBlock Grid.Row="2" Grid.Column="0" Text="Knowledge"/>
 
-            <TextBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Text="{Binding KnowledgeList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1" >
+                <TextBox HorizontalAlignment="Stretch" MinWidth="120" VerticalAlignment="Top" Text="{Binding KnowledgeList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
+                <Button Content="Add" Command="{Binding AddKnowledgeCommand}" VerticalAlignment="Top" Width="auto" Height="22" Margin="5,0,0,0">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Raised" SourceObject="{Binding InteractionRequest}">
+                            <i:EventTrigger.Actions>
+                                <actions:ShowWindowAction/>
+                            </i:EventTrigger.Actions>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+            </StackPanel>
 
             <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Content="Save" Margin="10" Width="120" Command="{Binding SaveCommand}"/>

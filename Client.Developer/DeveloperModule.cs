@@ -19,6 +19,9 @@ namespace Client.Developer
 
             _container.RegisterType<object, DeveloperList>("DeveloperList");
             _container.RegisterType<DeveloperListViewModel>();
+
+            _container.RegisterType<object, KnowledgeEditor>("KnowledgeEditor");
+            _container.RegisterType<KnowledgeEditorViewModel>();
         }
     }
 }
