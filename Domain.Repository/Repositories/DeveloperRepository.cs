@@ -199,11 +199,10 @@ namespace Repository
                 if (entity.KnowledgeBase == null)
                     entity.KnowledgeBase = new List<KnowledgeModel>();
                 var collection = MongoClientManager.DataBase.GetCollection<KnowledgeModel>(CollectionNames.Knowledge);
-                foreach(ObjectId id in entity.KnowledgeIds)
-                {
-                    var result = await collection.FindAsync(d => d.ID == id);
-                    entity.KnowledgeBase.Add(result.FirstOrDefault());
-                }
+                var filter = Builders<KnowledgeModel>.Filter.AnyIn("_id", entity.KnowledgeIds.ToArray());
+                var doc = filter.ToBsonDocument();
+                var entities = await collection.Find(filter).ToListAsync();
+                entity.KnowledgeBase.AddRange(entities);
             }
         }
     }
