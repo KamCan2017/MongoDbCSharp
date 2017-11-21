@@ -1,12 +1,16 @@
 ﻿using Client.Core.Model;
+using Common;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System.Collections.Generic;
 
 namespace Developer
 {
-    public class DeveloperModel : IDeveloper
+    public class DeveloperModel : BasePropertyChanged, IDeveloper
     {
+        private string _name;
+        private string _companyName;
+
         [BsonConstructor]
         public DeveloperModel()
         {
@@ -18,10 +22,26 @@ namespace Developer
         public ObjectId ID { get; set; }
 
         [BsonElement("name")]
-        public string Name { get; set; }
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                _name = value;
+                NotifyPropertyChanged(nameof(Name));
+            }
+        }
 
         [BsonElement("company_name")]
-        public string CompanyName { get; set; }
+        public string CompanyName
+        {
+            get { return _companyName; }
+            set
+            {
+                _companyName = value;
+                NotifyPropertyChanged(nameof(CompanyName));
+            }
+        }
 
         public List<KnowledgeModel> KnowledgeBase { get; set; }
 

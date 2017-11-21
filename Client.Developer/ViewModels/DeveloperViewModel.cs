@@ -38,16 +38,16 @@ namespace Client.Developer.ViewModels
 
             _saveCommand = new DelegateCommand(async() => await Save(),  CanExecuteSave);
             _cancelCommand = new DelegateCommand(Cancel);
-            _addKnowledgeCommand = new DelegateCommand(OpenKnowledgeEditor);
+            _addKnowledgeCommand = new DelegateCommand(OpenKnowledgeEditor, CanOpenKnowledgeEditor);
             _interactionRequest = new InteractionRequest<Confirmation>();
 
-            _developer = new DeveloperModel();
+            Developer = new DeveloperModel();
 
             _eventAggregator.GetEvent<EntityEditPubEvent>().Subscribe(data => SetCurrentModel(data));
             _eventAggregator.GetEvent<AddKnowledgePubEvent>().Subscribe(data => AddKnowledge(data));
         }
 
-       
+      
 
         public IInteractionRequest InteractionRequest
         {
@@ -59,10 +59,23 @@ namespace Client.Developer.ViewModels
             get { return _developer; }
             set
             {
-                _developer = value;
+                if (_developer != null)
+                    _developer.PropertyChanged -= _developer_PropertyChanged;
+
+                _developer = value;  
+                if(_developer != null)
+                    _developer.PropertyChanged += _developer_PropertyChanged;
+
                 NotifyPropertyChanged(nameof(Developer));
                 SaveCommand.RaiseCanExecuteChanged();
+                AddKnowledgeCommand.RaiseCanExecuteChanged();
             }
+        }
+
+        private void _developer_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            SaveCommand.RaiseCanExecuteChanged();
+            AddKnowledgeCommand.RaiseCanExecuteChanged();
         }
 
         public DelegateCommand AddKnowledgeCommand
@@ -110,7 +123,12 @@ namespace Client.Developer.ViewModels
         }
         private bool CanExecuteSave()
         {
-            return Developer != null;
+            return Developer != null && Developer.IsValid;
+        }
+
+        private bool CanOpenKnowledgeEditor()
+        {
+            return Developer != null && Developer.IsValid;
         }
 
         private void SetCurrentModel(DeveloperModel data)
