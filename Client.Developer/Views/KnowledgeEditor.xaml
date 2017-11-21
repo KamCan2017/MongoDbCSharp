@@ -4,7 +4,7 @@
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True"
              Background="LightGray" MaxHeight="250" MaxWidth="400"
-             Title="Knowledge Editor" x:Name="window">
+             Title="Knowledge Editor" FontSize="15" x:Name="window">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
