@@ -25,7 +25,6 @@ namespace Client.Developer.ViewModels
 
         private readonly IBusyIndicator _busyIndicator;
         private readonly IEventAggregator _eventAggregator;
-        private string _knowledgeList;
         private DelegateCommand _addKnowledgeCommand;
         private InteractionRequest<Confirmation> _interactionRequest;
         private DelegateCommand<KnowledgeModel> _removeKnowledgeCommand;
