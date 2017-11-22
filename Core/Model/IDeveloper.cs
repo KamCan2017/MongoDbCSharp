@@ -12,6 +12,8 @@ namespace Client.Core.Model
         string CompanyName { get; set; }
 
         bool IsValid { get; }
+
+        string Gender { get; set; }
     }
 
     

@@ -12,6 +12,7 @@ namespace Developer
         private string _name;
         private string _companyName;
         private ObservableCollection<KnowledgeModel> _knowledgeCollection;
+        private string _gender;
 
         [BsonConstructor]
         public DeveloperModel()
@@ -42,6 +43,18 @@ namespace Developer
             {
                 _companyName = value;
                 NotifyPropertyChanged(nameof(CompanyName));
+            }
+        }
+
+
+        [BsonElement("gender")]
+        public string Gender
+        {
+            get { return _gender; }
+            set
+            {
+                _gender = value;
+                NotifyPropertyChanged(nameof(Gender));
             }
         }
 

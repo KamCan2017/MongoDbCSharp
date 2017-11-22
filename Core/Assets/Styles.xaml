@@ -49,4 +49,7 @@
         </Setter>
     </Style>
 
+    <Image x:Key="UserMaleIcon" Source="pack://application:,,,/Core;component/Assets/Images/userMale.jpg"/>
+    <Image x:Key="UserFemaleIcon" Source="pack://application:,,,/Core;component/Assets/Images/userFemale.jpg"/>
+
 </ResourceDictionary>

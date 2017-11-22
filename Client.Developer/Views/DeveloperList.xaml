@@ -19,6 +19,7 @@
                 <ResourceDictionary Source="pack://application:,,,/Core;component/Assets/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <converter:KnowledgeConverter x:Key="KnowledgeConverter"/>
+            <converter:GenderToImageConverter x:Key="GenderToImageConverter"/>
         </ResourceDictionary>
 
     </UserControl.Resources>
@@ -57,7 +58,7 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Image Source="pack://application:,,,/Core;component/Assets/Images/user.jpg"/>
+                                    <ContentControl Content="{Binding Gender, Converter={StaticResource GenderToImageConverter}}"/>
                                     <TextBlock Text="{Binding Name}" Margin="3,3,0,0"/>
                                 </StackPanel>
                             </DataTemplate>

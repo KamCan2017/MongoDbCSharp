@@ -41,4 +41,11 @@
         public const string ImageProcessing = "3D Image";
     }
 
+    public static class Gender
+    {
+        public const string Male = "Male";
+
+        public const string Female = "Female";
+    }
+
 }

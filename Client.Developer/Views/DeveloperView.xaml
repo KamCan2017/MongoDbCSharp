@@ -38,18 +38,22 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Name"/>
             <TextBox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Text="{Binding Developer.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-            <TextBlock Grid.Row="1" Grid.Column="0" Text="Company"/>
-            <TextBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Text="{Binding Developer.CompanyName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Gender"/>
+            <ComboBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" ItemsSource="{Binding Genders}" SelectedItem="{Binding Developer.Gender, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-            <TextBlock Grid.Row="2" Grid.Column="0" Text="Knowledge"/>
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Company"/>
+            <TextBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Text="{Binding Developer.CompanyName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-            <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1" >
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="Knowledge"/>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1" >
                 <ComboBox HorizontalAlignment="Stretch" MinWidth="120" Height="28" VerticalAlignment="Top" ItemsSource="{Binding Developer.KnowledgeBase}" SelectedIndex="{Binding SeletedIndex}"
                           IsSynchronizedWithCurrentItem="True">
                     <ComboBox.ItemTemplate>
@@ -83,7 +87,7 @@
                 </Button>
             </StackPanel>
 
-            <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <StackPanel Grid.Row="4" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Content="Save" Margin="10" Width="120" Command="{Binding SaveCommand}" Style="{StaticResource TransparentButtonStyle}"/>
                 <Button Content="Clear" Margin="10" Width="120" Command="{Binding CancelCommand}" Style="{StaticResource TransparentButtonStyle}"/>
             </StackPanel>

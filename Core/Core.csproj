@@ -71,10 +71,13 @@
     <Resource Include="Assets\Images\add.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Images\user.jpg" />
+    <Resource Include="Assets\Images\userMale.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Images\technology.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\userFemale.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -96,6 +96,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\ShowWindowAction.cs" />
+    <Compile Include="Converter\GenderToImageConverter.cs" />
     <Compile Include="Converter\KnowledgeConverter.cs" />
     <Compile Include="DeveloperModule.cs" />
     <Compile Include="Events.cs" />

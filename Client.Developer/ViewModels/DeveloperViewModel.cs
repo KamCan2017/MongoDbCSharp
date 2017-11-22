@@ -7,6 +7,7 @@ using Prism.Commands;
 using Prism.Events;
 using Prism.Interactivity.InteractionRequest;
 using Repository;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -55,6 +56,14 @@ namespace Client.Developer.ViewModels
         public IInteractionRequest InteractionRequest
         {
             get { return _interactionRequest; }
+        }
+
+        public List<string> Genders
+        {
+            get
+            {
+                return new List<string>() { Gender.Female, Gender.Male };
+            }
         }
 
         public DeveloperModel Developer

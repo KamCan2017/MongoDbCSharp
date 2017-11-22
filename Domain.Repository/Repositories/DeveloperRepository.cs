@@ -210,6 +210,7 @@ namespace Repository
 
             clonedObj.CompanyName = entity.CompanyName;
             clonedObj.KnowledgeIds = null;
+            clonedObj.Gender = entity.Gender;
             clonedObj.Name = entity.Name + "_cloned";
             
             clonedObj = await SaveAsync(clonedObj) as DeveloperModel;
