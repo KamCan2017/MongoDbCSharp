@@ -27,7 +27,7 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         
-        <TextBlock Text="Technoloy" Grid.Row="0" Grid.Column="0" Margin="10"/>
+        <TextBlock Text="Technology" Grid.Row="0" Grid.Column="0" Margin="10"/>
         <ComboBox Grid.Row="0" Grid.Column="1" Margin="10" VerticalAlignment="Bottom" ItemsSource="{Binding Technologies}"
                   SelectedItem="{Binding Knowledge.Technology}"/>
 

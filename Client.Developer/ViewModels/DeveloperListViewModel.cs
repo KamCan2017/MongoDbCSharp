@@ -107,7 +107,6 @@ namespace Client.Developer.ViewModels
             {
                 _busyIndicator.Busy = true;
                 result = await _developerRepository.DeleteAsync(entity);
-                await Task.Delay(2000);
                 if (result)
                 {
                     Developers.Remove(entity);
@@ -130,7 +129,6 @@ namespace Client.Developer.ViewModels
             _busyIndicator.Busy = true;
             
             var clonedModel = await _developerRepository.CloneAsync(model);
-            await Task.Delay(2000);
             if (clonedModel != null)
             {
                 Developers.Add(clonedModel);
