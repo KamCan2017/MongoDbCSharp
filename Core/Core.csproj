@@ -65,9 +65,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Images\refresh.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Assets\Images\add.jpg" />
   </ItemGroup>
   <ItemGroup>
@@ -78,6 +75,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Images\userFemale.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\refresh.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

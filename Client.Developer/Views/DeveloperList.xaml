@@ -44,9 +44,10 @@
                 <TextBlock Text="Filter:" Margin="3"/>
                 <TextBox VerticalAlignment="Top" Margin="3" Width="120" Text="{Binding Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
-            <Button Margin="10" Width="60" Command="{Binding FilterCommand}" Content="Apply" Style="{StaticResource TransparentButtonStyle}"/>
-            <Button  HorizontalAlignment="Right" Margin="10" Width="60" Command="{Binding UpdateCommand}"
-                     Content="Update" Style="{StaticResource TransparentButtonStyle}"/>
+            <Button Margin="10" Width="auto" Command="{Binding FilterCommand}" Content="Apply filter" Style="{StaticResource TransparentButtonStyle}"/>
+            <Button Content="Refresh" HorizontalAlignment="Right" Margin="10" Width="auto" Command="{Binding UpdateCommand}"
+                     Style="{StaticResource TransparentButtonStyle}">
+            </Button>
 
         </StackPanel>
 
