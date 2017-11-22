@@ -16,6 +16,7 @@ namespace Client.Developer.ViewModels
         private IDeveloperRepository _developerRepository;
         private ObservableCollection<DeveloperModel> _developers;
         private DelegateCommand<DeveloperModel> _deleteCommand;
+        private DelegateCommand<DeveloperModel> _cloneCommand;
         private DelegateCommand _refreshCommand;
         private DelegateCommand _filterCommand;
         private DeveloperModel _selectedItem;
@@ -32,6 +33,8 @@ namespace Client.Developer.ViewModels
             _deleteCommand = new DelegateCommand<DeveloperModel>(async (item) => await DeleteModel(item));
             _refreshCommand = new DelegateCommand(async() => await LoadData());
             _filterCommand = new DelegateCommand(async () => await ExecuteFilter(), CanExecuteFilter);
+            _cloneCommand = new DelegateCommand<DeveloperModel>(async(model) => await CloneModel(model));
+
             _eventAggregator.GetEvent<UpdateDeveloperListPubEvent>().Subscribe(async() => await LoadData());
         }
 
@@ -45,6 +48,8 @@ namespace Client.Developer.ViewModels
         public DelegateCommand UpdateCommand { get { return _refreshCommand; } }
 
         public DelegateCommand FilterCommand { get { return _filterCommand; } }
+
+        public DelegateCommand<DeveloperModel> CloneCommand { get { return _cloneCommand; } }
 
         public ObservableCollection<DeveloperModel> Developers
         {
@@ -64,8 +69,7 @@ namespace Client.Developer.ViewModels
             {
                 _selectedItem = value;
                 NotifyPropertyChanged(nameof(SelectedItem));
-                if(_selectedItem != null)
-                  _eventAggregator.GetEvent<EntityEditPubEvent>().Publish(_selectedItem);
+                _eventAggregator.GetEvent<EntityEditPubEvent>().Publish(_selectedItem);
             }
         }
 
@@ -102,7 +106,7 @@ namespace Client.Developer.ViewModels
             if (dialogres == System.Windows.MessageBoxResult.Yes)
             {
                 _busyIndicator.Busy = true;
-                result = await _developerRepository.DeletedAsync(entity);
+                result = await _developerRepository.DeleteAsync(entity);
                 await Task.Delay(2000);
                 if (result)
                 {
@@ -119,6 +123,21 @@ namespace Client.Developer.ViewModels
         {
             var results = await _developerRepository.FindByTextSearch(Filter);
             Developers = new ObservableCollection<DeveloperModel>(results);
-        }       
+        }
+
+        private async Task CloneModel(DeveloperModel model)
+        {
+            _busyIndicator.Busy = true;
+            
+            var clonedModel = await _developerRepository.CloneAsync(model);
+            await Task.Delay(2000);
+            if (clonedModel != null)
+            {
+                Developers.Add(clonedModel);
+            }
+
+            _busyIndicator.Busy = false;
+        }
+
     }
 }

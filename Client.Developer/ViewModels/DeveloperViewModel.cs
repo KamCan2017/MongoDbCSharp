@@ -142,8 +142,10 @@ namespace Client.Developer.ViewModels
 
         private void SetCurrentModel(DeveloperModel data)
         {
-            Developer = data as DeveloperModel;
-            KnowledgeConverter converter = new KnowledgeConverter();
+            if (data != null)
+                Developer = data;
+            else
+                Developer = new DeveloperModel();
         }
 
         private async Task<bool> Save()

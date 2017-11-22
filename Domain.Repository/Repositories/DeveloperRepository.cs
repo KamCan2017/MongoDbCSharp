@@ -145,7 +145,7 @@ namespace Repository
             return result.DeletedCount == 1;
         }
 
-        public async Task<bool> DeletedAsync(IDeveloper entity)
+        public async Task<bool> DeleteAsync(IDeveloper entity)
         {
             var collection = MongoClientManager.DataBase.GetCollection<DeveloperModel>(CollectionNames.Developer);
 
@@ -200,6 +200,24 @@ namespace Repository
             var docs = await collection.Find(filter).ToListAsync();
             return docs;
         }
+
+        public async Task<DeveloperModel> CloneAsync(DeveloperModel entity)
+        {
+            var clonedObj = new DeveloperModel();
+
+            if(entity.KnowledgeBase != null && entity.KnowledgeBase.Any())
+               clonedObj.KnowledgeBase = new ObservableCollection<KnowledgeModel>(entity.KnowledgeBase.ToList());
+
+            clonedObj.CompanyName = entity.CompanyName;
+            clonedObj.KnowledgeIds = null;
+            clonedObj.Name = entity.Name + "_cloned";
+            
+            clonedObj = await SaveAsync(clonedObj) as DeveloperModel;
+            await FillKnowledge(clonedObj);
+
+            return clonedObj;
+        }
+
 
         private async Task FillKnowledge(DeveloperModel entity)
         {
