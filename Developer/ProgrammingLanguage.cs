@@ -43,9 +43,9 @@
 
     public static class Gender
     {
-        public const string Male = "Male";
+        public const string Male = "male";
 
-        public const string Female = "Female";
+        public const string Female = "female";
     }
 
 }
