@@ -182,8 +182,6 @@ namespace Client.Developer.ViewModels
                 else
                     await _developerRepository.UpdateAsync(Developer);
 
-                await Task.Delay(2000);
-
                 Developer = new DeveloperModel();
 
                 result = true;

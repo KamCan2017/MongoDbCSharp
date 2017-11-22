@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System;
+using System.Linq;
 
 namespace Client.Developer.ViewModels
 {
@@ -23,6 +24,7 @@ namespace Client.Developer.ViewModels
         private readonly IEventAggregator _eventAggregator;
         private readonly IBusyIndicator _busyIndicator;
         private string _filter;
+        private DelegateCommand _deleteAllCommand;
 
         public DeveloperListViewModel(IEventAggregator eventAggregator, IBusyIndicator busyIndicator)
         {
@@ -34,14 +36,15 @@ namespace Client.Developer.ViewModels
             _refreshCommand = new DelegateCommand(async() => await LoadData());
             _filterCommand = new DelegateCommand(async () => await ExecuteFilter(), CanExecuteFilter);
             _cloneCommand = new DelegateCommand<DeveloperModel>(async(model) => await CloneModel(model));
+            _deleteAllCommand = new DelegateCommand(async() => await DeleteAllModel(), CanDeleteAll);
 
-            _eventAggregator.GetEvent<UpdateDeveloperListPubEvent>().Subscribe(async() => await LoadData());
+            _eventAggregator.GetEvent<UpdateDeveloperListPubEvent>().Subscribe(async() =>
+            {
+                await LoadData();
+            });
         }
 
-        private bool CanExecuteFilter()
-        {
-            return !String.IsNullOrEmpty(Filter) && !String.IsNullOrWhiteSpace(Filter);
-        }
+       
 
         public DelegateCommand<DeveloperModel> DeleteCommand { get { return _deleteCommand; } }
 
@@ -50,6 +53,10 @@ namespace Client.Developer.ViewModels
         public DelegateCommand FilterCommand { get { return _filterCommand; } }
 
         public DelegateCommand<DeveloperModel> CloneCommand { get { return _cloneCommand; } }
+
+        public DelegateCommand DeleteAllCommand { get { return _deleteAllCommand; } }
+
+        
 
         public ObservableCollection<DeveloperModel> Developers
         {
@@ -83,10 +90,30 @@ namespace Client.Developer.ViewModels
                 NotifyPropertyChanged(nameof(Filter));
                 FilterCommand.RaiseCanExecuteChanged();
             }
-        }      
+        }
+
+        private bool CanDeleteAll()
+        {
+            return Developers != null && Developers.Any();
+        }
+        private async Task DeleteAllModel()
+        {
+            var dialogres = Xceed.Wpf.Toolkit.MessageBox.Show("Delete all entries?", "Delete entries", MessageBoxButton.YesNo);
+            if (dialogres == System.Windows.MessageBoxResult.Yes)
+            {
+                _busyIndicator.Busy = true;
+                await _developerRepository.DeleteAllAsync();
+                await LoadData();
+                _busyIndicator.Busy = false;
+            }
+        }
+
+        private bool CanExecuteFilter()
+        {
+            return !String.IsNullOrEmpty(Filter) && !String.IsNullOrWhiteSpace(Filter);
+        }
 
 
-       
         private async Task LoadData()
         {
             _busyIndicator.Busy = true;
@@ -94,6 +121,8 @@ namespace Client.Developer.ViewModels
             await Task.Delay(2000);
             var developers = await _developerRepository.FindAllAsync();
             Developers = new ObservableCollection<DeveloperModel>(developers);
+
+            DeleteAllCommand.RaiseCanExecuteChanged();
 
             _busyIndicator.Busy = false;
         }
@@ -115,6 +144,7 @@ namespace Client.Developer.ViewModels
 
                 _busyIndicator.Busy = false;
             }
+            DeleteAllCommand.RaiseCanExecuteChanged();
             return result;
         }
 

@@ -52,6 +52,11 @@
                     <GridViewColumn Header="Language" Width="auto" DisplayMemberBinding="{Binding Language}"/>
                 </GridView>
             </ListView.View>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <ei:InvokeCommandAction Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=window}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
         </ListView>
 
 

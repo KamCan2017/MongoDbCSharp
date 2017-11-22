@@ -48,7 +48,9 @@
             <Button Content="Refresh" HorizontalAlignment="Right" Margin="10" Width="auto" Command="{Binding UpdateCommand}"
                      Style="{StaticResource TransparentButtonStyle}">
             </Button>
-
+            <Button Content="Delete all" HorizontalAlignment="Right" Margin="10" Width="auto" Command="{Binding DeleteAllCommand}"
+                     Style="{StaticResource TransparentButtonStyle}">
+            </Button>
         </StackPanel>
 
         <ListView Grid.Row="2" ItemsSource="{Binding Developers,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -81,7 +83,7 @@
                                     <TextBlock Margin="0,0,5,0">
                                     <Hyperlink Command="{Binding DataContext.CloneCommand, RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor}}" CommandParameter="{Binding}">
                                     <InlineUIContainer>
-                                        <TextBlock Text="Clone"/>
+                                        <TextBlock Text="Copy"/>
                                     </InlineUIContainer> 
                                     </Hyperlink>
                                 </TextBlock>
