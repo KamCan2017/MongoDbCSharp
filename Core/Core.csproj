@@ -79,5 +79,8 @@
   <ItemGroup>
     <Resource Include="Assets\Images\refresh.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\mongodbLogo.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
