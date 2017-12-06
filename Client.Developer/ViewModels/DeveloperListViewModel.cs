@@ -118,7 +118,7 @@ namespace Client.Developer.ViewModels
         {
             _busyIndicator.Busy = true;
 
-            await Task.Delay(2000);
+            await Task.Delay(500);
             var developers = await _developerRepository.FindAllAsync();
             Developers = new ObservableCollection<DeveloperModel>(developers);
 
