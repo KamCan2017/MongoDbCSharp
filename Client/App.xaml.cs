@@ -21,7 +21,11 @@ namespace Client
             if (e.Exception.InnerException != null)
                 error = e.Exception.InnerException.Message;
 
+            error += "\r\nThe application will be closed.";
+
             var dialogres = Xceed.Wpf.Toolkit.MessageBox.Show(error, "Error", MessageBoxButton.OK);
+
+            App.Current.MainWindow.Close();
             App.Current.Shutdown();
         }
     }

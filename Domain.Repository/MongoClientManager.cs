@@ -18,11 +18,11 @@ namespace Repository
             //{
             //    Credentials = new[] { credential },
             //    Server = new MongoServerAddress("localhost"),
-            //    UseSsl = false,           
+            //    UseSsl = false,
             //};
 
             ////Get a Reference to the Client Object
-            //_client = new MongoClient(settings);
+            // _client = new MongoClient(settings);
             #endregion
 
             Init();
@@ -52,8 +52,8 @@ namespace Repository
                 // couldn't connect
                 throw new Exception("Server connection failed!");
             }
-
         }
+
         private static void CreateViewInDb()
         {
             try
@@ -86,10 +86,9 @@ namespace Repository
             }
             catch (Exception)
             {
-
-                throw;
+                // couldn't create database
+                throw new Exception("The database can not be created!");
             }
-
         }
 
         private static bool BuildIndexKeys()
@@ -118,7 +117,6 @@ namespace Repository
         {
             await _client.DropDatabaseAsync(DBNames.Restaurant);
             Console.WriteLine("{0} is deleted.", DBNames.Restaurant);
-        }        
-
+        }       
     }
 }
