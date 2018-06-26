@@ -20,10 +20,10 @@ namespace Client.Developer.ViewModels
         private IEnumerable<KnowledgeModel> _knowledges;
         private KnowledgeModel _selectedItem;
 
-        public KnowledgeEditorViewModel(IEventAggregator eventAggregator)
+        public KnowledgeEditorViewModel(IEventAggregator eventAggregator, IKnowledgeRepository knowledgeRepository)
         {
             _eventAggregator = eventAggregator;
-            _knowledgeRepository = new KnowledgeRepository();
+            _knowledgeRepository = knowledgeRepository;
 
             _saveCommand = new DelegateCommand<Window>(window => Accept(window), CanExecuteSaveCommand);
             _loadCommand = new DelegateCommand(LoadData);

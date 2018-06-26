@@ -27,6 +27,7 @@ namespace Client
             Container.AddNewExtension<Interception>();
             Container.RegisterType<IBusyIndicator, MainWindowViewModel>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IDeveloperRepository, DeveloperRepository>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IKnowledgeRepository, KnowledgeRepository>(new ContainerControlledLifetimeManager());
 
             RegisterTypeIfMissing(typeof(IEventAggregator), typeof(EventAggregator), true);
 

@@ -31,12 +31,13 @@ namespace Client.Developer.ViewModels
         private DelegateCommand<KnowledgeModel> _removeKnowledgeCommand;
         private int _selectedIndex;
 
-        public DeveloperViewModel(IEventAggregator eventAggregator, IBusyIndicator busyIndicator)
+        public DeveloperViewModel(IEventAggregator eventAggregator, IBusyIndicator busyIndicator,
+            IKnowledgeRepository knowledgeRepository)
         {
             _busyIndicator = busyIndicator;
             _eventAggregator = eventAggregator;
             _developerRepository = new DeveloperRepository();
-            _knowledgeRepository = new KnowledgeRepository();
+            _knowledgeRepository = knowledgeRepository;
 
             _saveCommand = new DelegateCommand(async() => await Save(),  CanExecuteSave);
             _cancelCommand = new DelegateCommand(Cancel);
