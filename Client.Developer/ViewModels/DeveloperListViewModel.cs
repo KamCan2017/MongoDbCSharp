@@ -9,13 +9,15 @@ using System.Threading.Tasks;
 using System.Windows;
 using System;
 using System.Linq;
+using Client.Core.Model;
+using WebClient;
 
 namespace Client.Developer.ViewModels
 {
     public class DeveloperListViewModel : BasePropertyChanged
     {
         private IDeveloperRepository _developerRepository;
-        private ObservableCollection<DeveloperModel> _developers;
+        private ObservableCollection<IDeveloper> _developers;
         private DelegateCommand<DeveloperModel> _deleteCommand;
         private DelegateCommand<DeveloperModel> _cloneCommand;
         private DelegateCommand _refreshCommand;
@@ -24,14 +26,15 @@ namespace Client.Developer.ViewModels
         private readonly IEventAggregator _eventAggregator;
         private readonly IBusyIndicator _busyIndicator;
         private string _filter;
-        private DelegateCommand _deleteAllCommand;
+        private readonly DelegateCommand _deleteAllCommand;
 
-        public DeveloperListViewModel(IEventAggregator eventAggregator, IBusyIndicator busyIndicator)
+        public DeveloperListViewModel(IEventAggregator eventAggregator, IBusyIndicator busyIndicator,
+            IDeveloperRepository developerRepository)
         {
             _eventAggregator = eventAggregator;
             _busyIndicator = busyIndicator;
 
-            _developerRepository = new DeveloperRepository();
+            _developerRepository = developerRepository;
             _deleteCommand = new DelegateCommand<DeveloperModel>(async (item) => await DeleteModel(item));
             _refreshCommand = new DelegateCommand(async() => await LoadData());
             _filterCommand = new DelegateCommand(async () => await ExecuteFilter(), CanExecuteFilter);
@@ -58,7 +61,7 @@ namespace Client.Developer.ViewModels
 
         
 
-        public ObservableCollection<DeveloperModel> Developers
+        public ObservableCollection<IDeveloper> Developers
         {
             get { return _developers; }
             set
@@ -119,8 +122,11 @@ namespace Client.Developer.ViewModels
             _busyIndicator.Busy = true;
 
             await Task.Delay(500);
+
+            //var developerSvc = new DeveloperService();
+            //var items = await developerSvc.FindAllAsync();
             var developers = await _developerRepository.FindAllAsync();
-            Developers = new ObservableCollection<DeveloperModel>(developers);
+            Developers = new ObservableCollection<IDeveloper>(developers);
 
             DeleteAllCommand.RaiseCanExecuteChanged();
 
@@ -151,7 +157,7 @@ namespace Client.Developer.ViewModels
         private async Task ExecuteFilter()
         {
             var results = await _developerRepository.FindByTextSearch(Filter);
-            Developers = new ObservableCollection<DeveloperModel>(results);
+            Developers = new ObservableCollection<IDeveloper>(results);
         }
 
         private async Task CloneModel(DeveloperModel model)

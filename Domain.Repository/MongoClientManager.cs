@@ -1,6 +1,7 @@
 ﻿using Common;
 using MongoDB.Bson;
 using MongoDB.Driver;
+
 using System;
 using System.Threading.Tasks;
 
@@ -16,13 +17,13 @@ namespace Repository
             ////Server settings
             //var settings = new MongoClientSettings
             //{
-            //    Credentials = new[] { credential },
+            //    Credential =  credential,
             //    Server = new MongoServerAddress("localhost"),
             //    UseSsl = false,
             //};
 
             ////Get a Reference to the Client Object
-            // _client = new MongoClient(settings);
+            //_client = new MongoClient(settings);
             #endregion
 
             Init();
@@ -31,7 +32,7 @@ namespace Repository
         public static IMongoDatabase DataBase { get; private set; }
 
         private static void Init()
-        {
+        {            
             _client = new MongoClient("mongodb://localhost:27017");
             DataBase = _client.GetDatabase(DBNames.VDB);
 

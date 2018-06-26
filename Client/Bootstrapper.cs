@@ -10,6 +10,7 @@ using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Unity;
+using Repository;
 using System;
 using System.Windows;
 
@@ -25,7 +26,8 @@ namespace Client
             base.ConfigureContainer();
             Container.AddNewExtension<Interception>();
             Container.RegisterType<IBusyIndicator, MainWindowViewModel>(new ContainerControlledLifetimeManager());
-         
+            Container.RegisterType<IDeveloperRepository, DeveloperRepository>(new ContainerControlledLifetimeManager());
+
             RegisterTypeIfMissing(typeof(IEventAggregator), typeof(EventAggregator), true);
 
             ModuleManager moduleManager = Container.TryResolve<ModuleManager>();

@@ -16,7 +16,7 @@ namespace Repository
 
         Task<bool> DeleteAsync(IDeveloper entity);
 
-        Task<IEnumerable<DeveloperModel>> FindAllAsync();
+        Task<IEnumerable<IDeveloper>> FindAllAsync();
 
         Task<DeveloperModel> FindByIdAsync(ObjectId id);
 
