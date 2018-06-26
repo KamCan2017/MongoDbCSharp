@@ -24,6 +24,25 @@ namespace Repository
 
             ////Get a Reference to the Client Object
             //_client = new MongoClient(settings);
+
+
+            //var credentials = MongoCredential.CreateCredential(
+            //             databaseName: "VDB",
+            //             username: "myUsername",
+            //             password: "myPassword"
+            //              );
+            //var server = new MongoServerAddress("localhost");
+
+            //var mongoClientSettings = new MongoClientSettings
+            //{
+            //    Credential = credentials,
+            //    Server = server,
+            //    ConnectionMode = ConnectionMode.Standalone,
+            //    ServerSelectionTimeout = TimeSpan.FromSeconds(3)
+            //};
+            //_client = new MongoClient(mongoClientSettings);
+            //DataBase = _client.GetDatabase(DBNames.VDB);
+
             #endregion
 
             Init();
@@ -33,9 +52,10 @@ namespace Repository
 
         private static void Init()
         {            
-            _client = new MongoClient("mongodb://localhost:27017");
+            _client = new MongoClient("mongodb://localhost");
             DataBase = _client.GetDatabase(DBNames.VDB);
 
+           
             CheckServerConnection();
             CreateViewInDb();
             BuildIndexKeys();
