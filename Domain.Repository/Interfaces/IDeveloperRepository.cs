@@ -28,6 +28,8 @@ namespace Repository
 
         Task<IDeveloper> SaveAsync(IDeveloper entity);
 
+        Task<IEnumerable<DeveloperModel>> SaveAsync(IEnumerable<DeveloperModel> entities);
+
         Task<DeveloperModel> UpdateAsync(DeveloperModel entity);
 
         Task<bool> UpdateDocumentAsync(BsonDocument doc);

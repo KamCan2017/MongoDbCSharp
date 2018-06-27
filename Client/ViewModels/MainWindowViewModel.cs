@@ -10,7 +10,7 @@ namespace Client.ViewModels
 
         public MainWindowViewModel()
         {
-           
+            Message = "Please Wait...";
         }
 
         public bool Busy
@@ -19,6 +19,10 @@ namespace Client.ViewModels
             set
             {
                 _isBusy = value;
+                if(!_isBusy)
+                {
+                    Message = "Please Wait...";
+                }
                 NotifyPropertyChanged(nameof(Busy));
             }
         }

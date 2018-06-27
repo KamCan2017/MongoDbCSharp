@@ -49,8 +49,10 @@
                      Style="{StaticResource TransparentButtonStyle}">
             </Button>
             <Button Content="Delete all" HorizontalAlignment="Right" Margin="10" Width="auto" Command="{Binding DeleteAllCommand}"
-                     Style="{StaticResource TransparentButtonStyle}">
+                     Style="{StaticResource TransparentButtonStyle}">                
             </Button>
+            <Button Content="Simulate" HorizontalAlignment="Right" Margin="10" Width="auto" Command="{Binding SimulateCommand}"
+                     Style="{StaticResource TransparentButtonStyle}" ToolTip="Generate 1 Million data..."/>
         </StackPanel>
 
         <ListView Grid.Row="2" ItemsSource="{Binding Developers,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"

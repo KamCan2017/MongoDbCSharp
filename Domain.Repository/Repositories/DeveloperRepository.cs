@@ -44,6 +44,24 @@ namespace Repository
             return entity;
         }
 
+        public async Task<IEnumerable<DeveloperModel>> SaveAsync(IEnumerable<DeveloperModel> entities)
+        {
+            var collection = MongoClientManager.DataBase.GetCollection<DeveloperModel>(CollectionNames.Developer);
+
+            foreach (var model in entities)
+            {
+                if (model.KnowledgeBase != null && model.KnowledgeBase.Any())
+                {
+                    model.KnowledgeIds = model.KnowledgeBase.Select(p => p.ID).ToList();
+                }
+                model.KnowledgeBase = null;
+            } 
+
+            await collection.InsertManyAsync(entities);
+            return entities;
+        }
+
+
         public async Task<DeveloperModel> UpdateAsync(DeveloperModel entity)
         {
             var collection = MongoClientManager.DataBase.GetCollection<DeveloperModel>(CollectionNames.Developer);
@@ -100,7 +118,6 @@ namespace Repository
 
             return doc;
         }
-      
 
         public async Task<IEnumerable<IDeveloper>> FindAllAsync()
         {
@@ -152,24 +169,19 @@ namespace Repository
             var result = await collection.DeleteOneAsync(d => d.ID == entity.ID);
 
             //check the document count
-            var docs = await collection.Find(new BsonDocument()).ToListAsync();
-            Console.WriteLine("document count: " + docs.Count);
+            //var docs = await collection.Find(new BsonDocument()).ToListAsync();
+            //Console.WriteLine("document count: " + docs.Count);
 
             return result.DeletedCount == 1;
         }
+        
 
         public async Task<bool> DeleteAllAsync()
         {
             var collection = MongoClientManager.DataBase.GetCollection<DeveloperModel>(CollectionNames.Developer);
             var filter = new BsonDocument();
-            var docsToDelete = collection.Count(filter);
             var result = await collection.DeleteManyAsync(filter);
-
-            //check the document count
-            var docs = await collection.Find(new BsonDocument()).ToListAsync();
-            Console.WriteLine("document count: " + docs.Count);
-
-            return result.DeletedCount == docsToDelete;
+            return result.DeletedCount > 0;
         }
 
 
@@ -182,12 +194,9 @@ namespace Repository
 
             var filter = Builders<DeveloperModel>.Filter.Text(text);
             var entities = await collection.Find(filter).ToListAsync();
-            if (entities.Any())
+            foreach (var entity in entities)
             {
-                foreach (var entity in entities)
-                {
-                    await FillKnowledge(entity);
-                }
+                await FillKnowledge(entity);
             }
             return entities;
         }

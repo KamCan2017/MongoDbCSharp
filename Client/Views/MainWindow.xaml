@@ -36,7 +36,8 @@
             <ContentControl  FocusVisualStyle="{x:Null}"  mvvm:RegionManager.RegionName="RightRegion" Grid.Column="2"  Margin="10" />
         </Grid>
 
-        <xctk:BusyIndicator IsBusy="{Binding Busy}" Grid.RowSpan="2"/>
+        <xctk:BusyIndicator IsBusy="{Binding Busy}" BusyContent="{Binding Message}"  Grid.RowSpan="2"/>
+
 
     </Grid>
 </Window>

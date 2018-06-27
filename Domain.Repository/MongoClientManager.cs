@@ -54,7 +54,6 @@ namespace Repository
         {            
             _client = new MongoClient("mongodb://localhost");
             DataBase = _client.GetDatabase(DBNames.VDB);
-
            
             CheckServerConnection();
             CreateViewInDb();

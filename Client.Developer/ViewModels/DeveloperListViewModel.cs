@@ -11,6 +11,7 @@ using System;
 using System.Linq;
 using Client.Core.Model;
 using WebClient;
+using System.Collections.Generic;
 
 namespace Client.Developer.ViewModels
 {
@@ -18,15 +19,17 @@ namespace Client.Developer.ViewModels
     {
         private IDeveloperRepository _developerRepository;
         private ObservableCollection<IDeveloper> _developers;
-        private DelegateCommand<DeveloperModel> _deleteCommand;
-        private DelegateCommand<DeveloperModel> _cloneCommand;
-        private DelegateCommand _refreshCommand;
-        private DelegateCommand _filterCommand;
+        private readonly DelegateCommand<DeveloperModel> _deleteCommand;
+        private readonly DelegateCommand<DeveloperModel> _cloneCommand;
+        private readonly DelegateCommand _refreshCommand;
+        private readonly DelegateCommand _filterCommand;
+        private readonly DelegateCommand _deleteAllCommand;
+        private readonly DelegateCommand _simulateCommand;
+
         private DeveloperModel _selectedItem;
         private readonly IEventAggregator _eventAggregator;
         private readonly IBusyIndicator _busyIndicator;
         private string _filter;
-        private readonly DelegateCommand _deleteAllCommand;
 
         public DeveloperListViewModel(IEventAggregator eventAggregator, IBusyIndicator busyIndicator,
             IDeveloperRepository developerRepository)
@@ -40,7 +43,7 @@ namespace Client.Developer.ViewModels
             _filterCommand = new DelegateCommand(async () => await ExecuteFilter(), CanExecuteFilter);
             _cloneCommand = new DelegateCommand<DeveloperModel>(async(model) => await CloneModel(model));
             _deleteAllCommand = new DelegateCommand(async() => await DeleteAllModel(), CanDeleteAll);
-
+            _simulateCommand = new DelegateCommand(async () => await Simulate());
             _eventAggregator.GetEvent<UpdateDeveloperListPubEvent>().Subscribe(async() =>
             {
                 await LoadData();
@@ -59,7 +62,7 @@ namespace Client.Developer.ViewModels
 
         public DelegateCommand DeleteAllCommand { get { return _deleteAllCommand; } }
 
-        
+        public DelegateCommand SimulateCommand { get { return _simulateCommand; } }
 
         public ObservableCollection<IDeveloper> Developers
         {
@@ -106,7 +109,10 @@ namespace Client.Developer.ViewModels
             {
                 _busyIndicator.Busy = true;
                 await _developerRepository.DeleteAllAsync();
-                await LoadData();
+                Developers = new ObservableCollection<IDeveloper>();
+
+                DeleteAllCommand.RaiseCanExecuteChanged();
+
                 _busyIndicator.Busy = false;
             }
         }
@@ -171,6 +177,39 @@ namespace Client.Developer.ViewModels
             }
 
             _busyIndicator.Busy = false;
+        }
+
+
+        private async Task Simulate()
+        {
+            await Task.Factory.StartNew(async () => 
+            {
+                _busyIndicator.Busy = true;
+                _busyIndicator.Message = "100 thousand users are generated...";
+                //one million data
+                int max = 100000;
+                var users = new List<DeveloperModel>();
+                for (int i = 1; i <= max; i++)
+                {
+                    var user = new DeveloperModel()
+                    {
+                        Name = "user_" + i,
+                        CompanyName = "suse",
+                       Gender = Gender.Male
+                    };
+
+                    users.Add(user);
+                }
+
+                //Save all users
+                var developers = await _developerRepository.SaveAsync(users);
+
+                //show data
+                Developers = new ObservableCollection<IDeveloper>(developers);
+                DeleteAllCommand.RaiseCanExecuteChanged();
+
+                _busyIndicator.Busy = false;
+            });            
         }
 
     }
