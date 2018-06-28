@@ -20,7 +20,7 @@ namespace Repository
 
         Task<DeveloperModel> FindByIdAsync(ObjectId id);
 
-        Task<IEnumerable<DeveloperModel>> FindByTextSearch(string text);
+        Task<IEnumerable<DeveloperModel>> FindByTextSearchAsync(string text);
 
         Task<IEnumerable<BsonDocument>> GetDocumentFromDeveloperView();
 

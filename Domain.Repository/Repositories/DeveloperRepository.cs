@@ -185,14 +185,17 @@ namespace Repository
         }
 
 
-        public async Task<IEnumerable<DeveloperModel>> FindByTextSearch(string text)
+        public async Task<IEnumerable<DeveloperModel>> FindByTextSearchAsync(string text)
         {
             if (string.IsNullOrEmpty(text))
                 return new List<DeveloperModel>();
 
             var collection = MongoClientManager.DataBase.GetCollection<DeveloperModel>(CollectionNames.Developer);
 
-            var filter = Builders<DeveloperModel>.Filter.Text(text);
+            var filter = Builders<DeveloperModel>.Filter.Text(text, new TextSearchOptions()
+            {
+                DiacriticSensitive = true, CaseSensitive = false
+            });
             var entities = await collection.Find(filter).ToListAsync();
             foreach (var entity in entities)
             {

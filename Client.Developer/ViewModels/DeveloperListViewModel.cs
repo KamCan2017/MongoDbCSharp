@@ -162,7 +162,7 @@ namespace Client.Developer.ViewModels
 
         private async Task ExecuteFilter()
         {
-            var results = await _developerRepository.FindByTextSearch(Filter);
+            var results = await _developerRepository.FindByTextSearchAsync(Filter);
             Developers = new ObservableCollection<IDeveloper>(results);
         }
 

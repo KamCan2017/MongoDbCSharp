@@ -46,7 +46,7 @@ namespace MongoDbConsole
 
             //Find by text
 
-            var objects = Task.Factory.StartNew(async () => await repository.FindByTextSearch("bosch"))
+            var objects = Task.Factory.StartNew(async () => await repository.FindByTextSearchAsync("bosch"))
                 .GetAwaiter().GetResult().Result;
 
             foreach (var result in objects)
