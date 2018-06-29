@@ -10,8 +10,12 @@ using System.Windows;
 using System;
 using System.Linq;
 using Client.Core.Model;
-using WebClient;
+//using WebClient;
 using System.Collections.Generic;
+using Core.QueueClient;
+using static Core.QueueClient.QueueCallback;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Client.Developer.ViewModels
 {
@@ -31,6 +35,8 @@ namespace Client.Developer.ViewModels
         private readonly IBusyIndicator _busyIndicator;
         private string _filter;
 
+        private QueueClient _queueClient;
+
         public DeveloperListViewModel(IEventAggregator eventAggregator, IBusyIndicator busyIndicator,
             IDeveloperRepository developerRepository)
         {
@@ -48,6 +54,9 @@ namespace Client.Developer.ViewModels
             {
                 await LoadData();
             });
+
+            Callback callback = async (payload, severity) => await UserChangedCallback(payload, severity);
+            _queueClient = new QueueClient(QueueConfig.ExchangeUser, QueueConfig.SeverityUser, callback);
         }
 
        
@@ -210,6 +219,38 @@ namespace Client.Developer.ViewModels
 
                 _busyIndicator.Busy = false;
             });            
+        }
+
+
+        private async Task UserChangedCallback(string payload, string severity)
+        {
+            dynamic model = JsonConvert.DeserializeObject(payload);
+            if (model == null)
+                return;
+
+            _busyIndicator.Busy = true;
+            string id = JObject.Parse(payload)["ID"].ToString();
+            var bsonId = new MongoDB.Bson.ObjectId(id);
+
+            var obj = await _developerRepository.FindByIdAsync(bsonId);
+
+            if (obj == null)
+                return;
+
+            await Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                var user = Developers.FirstOrDefault(d => d.ID == obj.ID);
+                if (user == null)
+                    Developers.Add(obj);
+                else
+                {
+                    var index = Developers.IndexOf(user);
+                    Developers.Remove(user);
+                    Developers.Insert(index, obj);
+                }
+            }, System.Windows.Threading.DispatcherPriority.Background);
+
+            _busyIndicator.Busy = false;
         }
 
     }

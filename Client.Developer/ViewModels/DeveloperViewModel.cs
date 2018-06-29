@@ -169,12 +169,15 @@ namespace Client.Developer.ViewModels
                     return false;
 
                 //Save the new knowledge
-                var knowledgeToSave = Developer.KnowledgeBase.Where(p => p.ID == ObjectId.Empty);
-                if (knowledgeToSave.Any())
+                if (Developer.KnowledgeBase != null)
                 {
-                    foreach(var entity in knowledgeToSave)
+                    var knowledgeToSave = Developer.KnowledgeBase.Where(p => p.ID == ObjectId.Empty);
+                    if (knowledgeToSave.Any())
                     {
-                        var savedObj = await _knowledgeRepository.SaveAsync(entity);
+                        foreach (var entity in knowledgeToSave)
+                        {
+                            var savedObj = await _knowledgeRepository.SaveAsync(entity);
+                        }
                     }
                 }
 
@@ -197,9 +200,9 @@ namespace Client.Developer.ViewModels
             finally
             {
                 _busyIndicator.Busy = false;
-                if(result)
-                    //Publish event to update the developer list
-                    _eventAggregator.GetEvent<UpdateDeveloperListPubEvent>().Publish();
+                //if(result)
+                //    //Publish event to update the developer list
+                //    _eventAggregator.GetEvent<UpdateDeveloperListPubEvent>().Publish();
             }
 
         }

@@ -8,12 +8,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using Core.QueueClient;
 
 namespace Repository
 {
     public class DeveloperRepository : IDeveloperRepository
     {
-       
+        private QueueClient _queueClient;
+
+        public DeveloperRepository()
+        {
+            //Add queue client
+            _queueClient = new QueueClient(QueueConfig.ExchangeUser, QueueConfig.SeverityUser);
+        }
+
         public BsonDocument CreateDocument(DeveloperModel developer)
         {
             if (developer == null)
@@ -40,7 +48,8 @@ namespace Repository
 
             Console.WriteLine("count:" + collection.Count(filter).ToString());
 
-
+            //Publish the  saved entity
+            _queueClient.Publish(model);
             return entity;
         }
 
@@ -75,8 +84,8 @@ namespace Repository
             entity.KnowledgeIds = null;
             entity.KnowledgeBase = null;
 
-            await collection.ReplaceOneAsync(d => d.ID == entity.ID, entity);
-
+            var temp = await collection.ReplaceOneAsync(d => d.ID == entity.ID, entity);
+            
             //update separatly the array list
             var update = Builders<DeveloperModel>.Update.Set(p => p.KnowledgeIds, array);
             await collection.UpdateOneAsync(d => d.ID == entity.ID, update);
@@ -86,6 +95,8 @@ namespace Repository
             var filter = new BsonDocument();
             Console.WriteLine("count:" + collection.Count(filter).ToString());
 
+            //Publish the  saved entity
+            _queueClient.Publish(entity);
 
             return entity;
         }
@@ -234,7 +245,7 @@ namespace Repository
 
         private async Task FillKnowledge(DeveloperModel entity)
         {
-            if(entity.KnowledgeIds.Any())
+            if(entity.KnowledgeIds != null && entity.KnowledgeIds.Any())
             {
                 var collection = MongoClientManager.DataBase.GetCollection<KnowledgeModel>(CollectionNames.Knowledge);
                 var filter = Builders<KnowledgeModel>.Filter.AnyIn("_id", entity.KnowledgeIds.ToArray());
