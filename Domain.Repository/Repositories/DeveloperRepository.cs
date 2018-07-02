@@ -14,12 +14,14 @@ namespace Repository
 {
     public class DeveloperRepository : IDeveloperRepository
     {
-        private QueueClient _queueClient;
+        private QueueClient _userChangedQueueClient;
+        private QueueClient _usersSavedQueueClient;
 
         public DeveloperRepository()
         {
             //Add queue client
-            _queueClient = new QueueClient(QueueConfig.ExchangeUser, QueueConfig.SeverityUser);
+            _userChangedQueueClient = new QueueClient(QueueConfig.ExchangeUser, QueueConfig.SeverityUser);
+            _usersSavedQueueClient = new QueueClient(QueueConfig.ExchangeUser, QueueConfig.SeverityMultipleUsers);
         }
 
         public BsonDocument CreateDocument(DeveloperModel developer)
@@ -48,8 +50,10 @@ namespace Repository
 
             Console.WriteLine("count:" + collection.Count(filter).ToString());
 
+            await FillKnowledge(model);
+
             //Publish the  saved entity
-            _queueClient.Publish(model);
+            _userChangedQueueClient.Publish(model);
             return entity;
         }
 
@@ -67,6 +71,7 @@ namespace Repository
             } 
 
             await collection.InsertManyAsync(entities);
+            _usersSavedQueueClient.Publish(entities);
             return entities;
         }
 
@@ -76,7 +81,7 @@ namespace Repository
             var collection = MongoClientManager.DataBase.GetCollection<DeveloperModel>(CollectionNames.Developer);
 
             //copy the array list to update separatly the array list
-            var array = new List<ObjectId>();
+            var array = new List<string>();
             if (entity.KnowledgeBase != null && entity.KnowledgeBase.Any())
             {
                 array = entity.KnowledgeBase.Select(p => p.ID).ToList();
@@ -95,8 +100,11 @@ namespace Repository
             var filter = new BsonDocument();
             Console.WriteLine("count:" + collection.Count(filter).ToString());
 
+            entity.KnowledgeIds = array;
+            await FillKnowledge(entity);
+
             //Publish the  saved entity
-            _queueClient.Publish(entity);
+            _userChangedQueueClient.Publish(entity);
 
             return entity;
         }
@@ -147,7 +155,7 @@ namespace Repository
             return entities;
         }
 
-        public async Task<DeveloperModel> FindByIdAsync(ObjectId id)
+        public async Task<DeveloperModel> FindByIdAsync(string id)
         {
             var collection = MongoClientManager.DataBase.GetCollection<DeveloperModel>(CollectionNames.Developer);
 
@@ -164,7 +172,7 @@ namespace Repository
         {
             var collection = MongoClientManager.DataBase.GetCollection<DeveloperModel>(CollectionNames.Developer);
 
-            var result = await collection.DeleteOneAsync(d => d.ID == id);
+            var result = await collection.DeleteOneAsync(d => d.ID == id.ToString());
 
             //check the document count
             var docs = await collection.Find(new BsonDocument()).ToListAsync();
@@ -247,8 +255,10 @@ namespace Repository
         {
             if(entity.KnowledgeIds != null && entity.KnowledgeIds.Any())
             {
+                var ids = new List<ObjectId>();
+                entity.KnowledgeIds.ForEach(o => ids.Add(ObjectId.Parse(o)));
                 var collection = MongoClientManager.DataBase.GetCollection<KnowledgeModel>(CollectionNames.Knowledge);
-                var filter = Builders<KnowledgeModel>.Filter.AnyIn("_id", entity.KnowledgeIds.ToArray());
+                var filter = Builders<KnowledgeModel>.Filter.AnyIn("_id", ids);
                 var doc = filter.ToBsonDocument();
                 var entities = await collection.Find(filter).ToListAsync();
                 entity.KnowledgeBase = new ObservableCollection<KnowledgeModel>(entities);

@@ -18,7 +18,7 @@ namespace Repository
 
         Task<IEnumerable<IDeveloper>> FindAllAsync();
 
-        Task<DeveloperModel> FindByIdAsync(ObjectId id);
+        Task<DeveloperModel> FindByIdAsync(string id);
 
         Task<IEnumerable<DeveloperModel>> FindByTextSearchAsync(string text);
 

@@ -18,11 +18,12 @@ namespace Developer
         public DeveloperModel()
         {
             KnowledgeBase = new ObservableCollection<KnowledgeModel>();
-            KnowledgeIds = new List<ObjectId>();
+            KnowledgeIds = new List<string>();
         }
 
         [BsonId]
-        public ObjectId ID { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string ID { get; set; }
 
         [BsonElement("name")]
         public string Name
@@ -69,7 +70,7 @@ namespace Developer
         }
 
         [BsonElement("knowledge_Ids")]
-        public List<ObjectId> KnowledgeIds { get; set; }
+        public List<string> KnowledgeIds { get; set; }
 
         public bool IsValid
         {

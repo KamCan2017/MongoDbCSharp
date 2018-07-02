@@ -171,7 +171,7 @@ namespace Client.Developer.ViewModels
                 //Save the new knowledge
                 if (Developer.KnowledgeBase != null)
                 {
-                    var knowledgeToSave = Developer.KnowledgeBase.Where(p => p.ID == ObjectId.Empty);
+                    var knowledgeToSave = Developer.KnowledgeBase.Where(p => string.IsNullOrEmpty(p.ID));
                     if (knowledgeToSave.Any())
                     {
                         foreach (var entity in knowledgeToSave)
@@ -181,7 +181,7 @@ namespace Client.Developer.ViewModels
                     }
                 }
 
-                if (Developer.ID == ObjectId.Empty)
+                if (string.IsNullOrEmpty(Developer.ID))
                     await _developerRepository.SaveAsync(Developer);
                 else
                     await _developerRepository.UpdateAsync(Developer);

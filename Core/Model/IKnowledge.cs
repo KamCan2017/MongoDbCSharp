@@ -4,7 +4,7 @@ namespace Client.Core.Model
 {
     public interface IKnowledge
     {
-        ObjectId ID { get; set; }
+        string ID { get; set; }
 
         string Language { get; set; }
 

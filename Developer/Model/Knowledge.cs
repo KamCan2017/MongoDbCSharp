@@ -11,7 +11,8 @@ namespace Developer
         private string _technology;
 
         [BsonId]
-        public ObjectId ID { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string ID { get; set; }
 
         [BsonElement("language_name")]
         public string Language

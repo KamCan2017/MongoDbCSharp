@@ -86,7 +86,7 @@ namespace Repository
             return docs;
         }
 
-        public async Task<KnowledgeModel> FindByIdAsync(ObjectId id)
+        public async Task<KnowledgeModel> FindByIdAsync(string id)
         {
             var collection = MongoClientManager.DataBase.GetCollection<KnowledgeModel>(CollectionNames.Knowledge);
 
@@ -96,7 +96,7 @@ namespace Repository
 
 
 
-        public async Task<bool> DeleteByIdAsync(ObjectId id)
+        public async Task<bool> DeleteByIdAsync(string id)
         {
             var collection = MongoClientManager.DataBase.GetCollection<KnowledgeModel>(CollectionNames.Knowledge);
 

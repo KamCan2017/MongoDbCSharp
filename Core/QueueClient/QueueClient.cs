@@ -43,7 +43,6 @@ namespace Core.QueueClient
         public QueueClient(string exchange, string severity, Callback receiveCallbackMethod)
             : this(exchange, severity)
         {
-
             var consumer = new EventingBasicConsumer(_channel);
             consumer.Received += (model, ea) =>
             {

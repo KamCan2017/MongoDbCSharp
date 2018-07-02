@@ -4,8 +4,7 @@ namespace Client.Core.Model
 {
     public interface IDeveloper
     {
-        
-        ObjectId ID { get; set; }
+        string ID { get; set; }
 
         string Name { get; set; }
 
@@ -14,7 +13,5 @@ namespace Client.Core.Model
         bool IsValid { get; }
 
         string Gender { get; set; }
-    }
-
-    
+    }    
 }

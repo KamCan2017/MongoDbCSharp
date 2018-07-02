@@ -1,20 +1,19 @@
-﻿using Common;
+﻿using Client.Core.Model;
+using Common;
 using Core;
+using Core.QueueClient;
 using Developer;
+using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Events;
 using Repository;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using System.Windows;
 using System;
-using System.Linq;
-using Client.Core.Model;
 //using WebClient;
 using System.Collections.Generic;
-using Core.QueueClient;
-using static Core.QueueClient.QueueCallback;
-using Newtonsoft.Json;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
 using Newtonsoft.Json.Linq;
 
 namespace Client.Developer.ViewModels
@@ -35,7 +34,8 @@ namespace Client.Developer.ViewModels
         private readonly IBusyIndicator _busyIndicator;
         private string _filter;
 
-        private QueueClient _queueClient;
+        private QueueClient _userChangedQueueClient;
+        private QueueClient _usersSavedQueueClient;
 
         public DeveloperListViewModel(IEventAggregator eventAggregator, IBusyIndicator busyIndicator,
             IDeveloperRepository developerRepository)
@@ -55,8 +55,14 @@ namespace Client.Developer.ViewModels
                 await LoadData();
             });
 
-            Callback callback = async (payload, severity) => await UserChangedCallback(payload, severity);
-            _queueClient = new QueueClient(QueueConfig.ExchangeUser, QueueConfig.SeverityUser, callback);
+            //Queue to reacte when a user is saved or changed
+            async void userChangedCallback(string payload, string severity) => await UserChangedCallback(payload, severity);
+            _userChangedQueueClient = new QueueClient(QueueConfig.ExchangeUser, QueueConfig.SeverityUser, userChangedCallback);
+
+
+            //Queue to reacte when multiple users are saved
+            void usersSavedCallback(string payload, string severity) => UsersSavedCallback(payload, severity);
+            _usersSavedQueueClient = new QueueClient(QueueConfig.ExchangeUser, QueueConfig.SeverityMultipleUsers, usersSavedCallback);
         }
 
        
@@ -211,11 +217,7 @@ namespace Client.Developer.ViewModels
                 }
 
                 //Save all users
-                var developers = await _developerRepository.SaveAsync(users);
-
-                //show data
-                Developers = new ObservableCollection<IDeveloper>(developers);
-                DeleteAllCommand.RaiseCanExecuteChanged();
+                await _developerRepository.SaveAsync(users);               
 
                 _busyIndicator.Busy = false;
             });            
@@ -224,34 +226,41 @@ namespace Client.Developer.ViewModels
 
         private async Task UserChangedCallback(string payload, string severity)
         {
-            dynamic model = JsonConvert.DeserializeObject(payload);
+            var model = JsonConvert.DeserializeObject<DeveloperModel>(payload);
             if (model == null)
                 return;
-
             _busyIndicator.Busy = true;
-            string id = JObject.Parse(payload)["ID"].ToString();
-            var bsonId = new MongoDB.Bson.ObjectId(id);
-
-            var obj = await _developerRepository.FindByIdAsync(bsonId);
-
-            if (obj == null)
-                return;
 
             await Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                var user = Developers.FirstOrDefault(d => d.ID == obj.ID);
+                var user = Developers.FirstOrDefault(d => d.ID == model.ID);
                 if (user == null)
-                    Developers.Add(obj);
+                    Developers.Add(model);
                 else
                 {
                     var index = Developers.IndexOf(user);
                     Developers.Remove(user);
-                    Developers.Insert(index, obj);
+                    Developers.Insert(index, model);
                 }
-            }, System.Windows.Threading.DispatcherPriority.Background);
 
+            }, System.Windows.Threading.DispatcherPriority.Background);
             _busyIndicator.Busy = false;
+
         }
 
+        private void UsersSavedCallback(string payload, string severity)
+        {
+            var models = JsonConvert.DeserializeObject<IEnumerable<DeveloperModel>>(payload);
+            if (models == null)
+                return;
+
+            _busyIndicator.Busy = true;
+            var list = Developers.ToList();
+            list.AddRange(models);
+            Developers = new ObservableCollection<IDeveloper>(list);
+            DeleteAllCommand.RaiseCanExecuteChanged();
+            _busyIndicator.Busy = false;
+        }
     }
+    
 }
