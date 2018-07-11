@@ -1,9 +1,10 @@
 ﻿using Core;
+using Core.Interfaces;
+using Core.ServiceClient;
 using Developer;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
-using Repository;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,15 +17,13 @@ namespace Client.Developer.ViewModels
         private DelegateCommand<Window> _saveCommand;
         private DelegateCommand _loadCommand;
         private KnowledgeModel _knowledge;
-        private IKnowledgeRepository _knowledgeRepository;
         private readonly IEventAggregator _eventAggregator;
         private IEnumerable<KnowledgeModel> _knowledges;
         private KnowledgeModel _selectedItem;
 
-        public KnowledgeEditorViewModel(IEventAggregator eventAggregator, IKnowledgeRepository knowledgeRepository)
+        public KnowledgeEditorViewModel(IEventAggregator eventAggregator)
         {
             _eventAggregator = eventAggregator;
-            _knowledgeRepository = knowledgeRepository;
 
             _saveCommand = new DelegateCommand<Window>(window => Accept(window), CanExecuteSaveCommand);
             _loadCommand = new DelegateCommand(LoadData);
@@ -119,7 +118,7 @@ namespace Client.Developer.ViewModels
         {
             Task.Run(async() => 
             {
-                Knowledges = await _knowledgeRepository.FindAllAsync();
+                Knowledges = await ServiceClient<IKnowledgeService>.ExecuteAsync(o => o.FindAllAsync());
             });
         }
 

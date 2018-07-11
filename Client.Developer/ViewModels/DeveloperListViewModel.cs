@@ -22,7 +22,6 @@ namespace Client.Developer.ViewModels
 {
     public class DeveloperListViewModel : BasePropertyChanged
     {
-        private IDeveloperRepository _developerRepository;
         private ObservableCollection<IDeveloper> _developers;
         private readonly DelegateCommand<DeveloperModel> _deleteCommand;
         private readonly DelegateCommand<DeveloperModel> _cloneCommand;
@@ -39,13 +38,11 @@ namespace Client.Developer.ViewModels
         private QueueClient _userChangedQueueClient;
         private QueueClient _usersSavedQueueClient;
 
-        public DeveloperListViewModel(IEventAggregator eventAggregator, IBusyIndicator busyIndicator,
-            IDeveloperRepository developerRepository)
+        public DeveloperListViewModel(IEventAggregator eventAggregator, IBusyIndicator busyIndicator)
         {
             _eventAggregator = eventAggregator;
             _busyIndicator = busyIndicator;
 
-            _developerRepository = developerRepository;
             _deleteCommand = new DelegateCommand<DeveloperModel>(async (item) => await DeleteModel(item));
             _refreshCommand = new DelegateCommand(async() => await LoadData());
             _filterCommand = new DelegateCommand(async () => await ExecuteFilter(), CanExecuteFilter);
@@ -125,7 +122,7 @@ namespace Client.Developer.ViewModels
             if (dialogres == System.Windows.MessageBoxResult.Yes)
             {
                 _busyIndicator.Busy = true;
-                await _developerRepository.DeleteAllAsync();
+                await ServiceClient<IDeveloperService>.ExecuteAsync(o => o.DeleteAllAsync());
                 Developers = new ObservableCollection<IDeveloper>();
 
                 DeleteAllCommand.RaiseCanExecuteChanged();
@@ -149,10 +146,8 @@ namespace Client.Developer.ViewModels
             //var developerSvc = new DeveloperService();
             //var items = await developerSvc.FindAllAsync();
 
-            var res = await ServiceClient<IDeveloperService>.ExecuteAsync(o => o.FindAll());
-
-            var developers = await _developerRepository.FindAllAsync();
-            Developers = new ObservableCollection<IDeveloper>(res);
+            var developers = await ServiceClient<IDeveloperService>.ExecuteAsync(o => o.FindAllAsync());
+            Developers = new ObservableCollection<IDeveloper>(developers);
 
             DeleteAllCommand.RaiseCanExecuteChanged();
 
@@ -167,7 +162,7 @@ namespace Client.Developer.ViewModels
             if (dialogres == System.Windows.MessageBoxResult.Yes)
             {
                 _busyIndicator.Busy = true;
-                result = await _developerRepository.DeleteAsync(entity);
+                result = await ServiceClient<IDeveloperService>.ExecuteAsync(o => o.DeleteAsync(entity));
                 if (result)
                 {
                     Developers.Remove(entity);
@@ -182,7 +177,7 @@ namespace Client.Developer.ViewModels
 
         private async Task ExecuteFilter()
         {
-            var results = await _developerRepository.FindByTextSearchAsync(Filter);
+            var results = await ServiceClient<IDeveloperService>.ExecuteAsync(o => o.FindByTextSearchAsync(Filter));
             Developers = new ObservableCollection<IDeveloper>(results);
         }
 
@@ -190,7 +185,7 @@ namespace Client.Developer.ViewModels
         {
             _busyIndicator.Busy = true;
             
-            var clonedModel = await _developerRepository.CloneAsync(model);
+            var clonedModel = await ServiceClient<IDeveloperService>.ExecuteAsync(o => o.CloneAsync(model));
             if (clonedModel != null)
             {
                 Developers.Add(clonedModel);
@@ -222,7 +217,7 @@ namespace Client.Developer.ViewModels
                 }
 
                 //Save all users
-                await _developerRepository.SaveAsync(users);               
+                await ServiceClient<IDeveloperService>.ExecuteAsync(o => o.SaveEntitiesAsync(users));               
 
                 _busyIndicator.Busy = false;
             });            

@@ -1,5 +1,4 @@
-﻿using Client.Core.Model;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using System.Collections.Generic;
 using System.ServiceModel;
 using System.Threading.Tasks;
@@ -10,45 +9,45 @@ namespace Core.Interfaces
     public interface IDeveloperService
     {
         [OperationContract]
-        BsonDocument CreateDocument(IDeveloper developer);
+        BsonDocument CreateDocument(DeveloperModel developer);
 
         [OperationContract]
-        Task<bool> DeleteAll();
+        Task<bool> DeleteAllAsync();
 
         [OperationContract]
-        Task<bool> DeleteById(ObjectId id);
+        Task<bool> DeleteByIdAsync(ObjectId id);
 
         [OperationContract]
-        Task<bool> Delete(IDeveloper entity);
+        Task<bool> DeleteAsync(DeveloperModel entity);
 
         [OperationContract]
-        Task<IEnumerable<DeveloperModel>> FindAll();
+        Task<IEnumerable<DeveloperModel>> FindAllAsync();
 
         [OperationContract]
-        Task<IDeveloper> FindById(string id);
+        Task<DeveloperModel> FindByIdAsync(string id);
 
         [OperationContract]
-        Task<IEnumerable<IDeveloper>> FindByTextSearch(string text);
+        Task<IEnumerable<DeveloperModel>> FindByTextSearchAsync(string text);
 
         [OperationContract]
-        Task<IEnumerable<BsonDocument>> GetDocumentFromDeveloperView();
+        Task<IEnumerable<BsonDocument>> GetDocumentFromDeveloperViewAsync();
 
         [OperationContract]
-        Task<BsonDocument> InsertDocument(BsonDocument doc);
+        Task<BsonDocument> InsertDocumentAsync(BsonDocument doc);
 
         [OperationContract]
-        Task<IDeveloper> Save(IDeveloper entity);
+        Task<DeveloperModel> SaveAsync(DeveloperModel entity);
 
         [OperationContract]
-        Task<IEnumerable<IDeveloper>> SaveEntities(IEnumerable<IDeveloper> entities);
+        Task<IEnumerable<DeveloperModel>> SaveEntitiesAsync(IEnumerable<DeveloperModel> entities);
 
         [OperationContract]
-        Task<IDeveloper> Update(IDeveloper entity);
+        Task<DeveloperModel> UpdateAsync(DeveloperModel entity);
 
         [OperationContract]
-        Task<bool> UpdateDocument(BsonDocument doc);
+        Task<bool> UpdateDocumentAsync(BsonDocument doc);
 
         [OperationContract]
-        Task<IDeveloper> Clone(IDeveloper entity);
+        Task<DeveloperModel> CloneAsync(DeveloperModel entity);
     }
 }

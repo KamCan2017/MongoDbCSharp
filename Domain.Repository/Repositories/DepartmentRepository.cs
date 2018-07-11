@@ -19,7 +19,7 @@ namespace Repository
 
             var filter = new BsonDocument();
 
-            Console.WriteLine("count:" + collection.Count(filter).ToString());
+            Console.WriteLine("count:" + collection.CountDocuments(filter).ToString());
 
             return entity;
         }

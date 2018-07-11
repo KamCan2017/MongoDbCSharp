@@ -15,7 +15,7 @@ namespace Repository
     {
        
 
-        public async Task<IKnowledge> SaveAsync(IKnowledge entity)
+        public async Task<KnowledgeModel> SaveAsync(KnowledgeModel entity)
         {
             var collection = MongoClientManager.DataBase.GetCollection<KnowledgeModel>(CollectionNames.Knowledge);
 
@@ -24,7 +24,7 @@ namespace Repository
 
             var filter = new BsonDocument();
 
-            Console.WriteLine("count:" + collection.Count(filter).ToString());
+            Console.WriteLine("count:" + collection.CountDocuments(filter).ToString());
 
 
             return entity;
@@ -55,7 +55,7 @@ namespace Repository
             Console.WriteLine("document updated: " + doc.ToJson());
 
             var filter = new BsonDocument();
-            Console.WriteLine("count:" + collection.Count(filter).ToString());
+            Console.WriteLine("count:" + collection.CountDocuments(filter).ToString());
 
 
             return true;
@@ -70,7 +70,7 @@ namespace Repository
 
             var filter = new BsonDocument();
 
-            Console.WriteLine("count:" + collection.Count(filter).ToString());
+            Console.WriteLine("count:" + collection.CountDocuments(filter).ToString());
 
             return doc;
         }
@@ -110,7 +110,7 @@ namespace Repository
             return result.DeletedCount == 1;
         }
 
-        public async Task<bool> DeletedAsync(IKnowledge entity)
+        public async Task<bool> DeletedAsync(KnowledgeModel entity)
         {
             var collection = MongoClientManager.DataBase.GetCollection<KnowledgeModel>(CollectionNames.Knowledge);
 

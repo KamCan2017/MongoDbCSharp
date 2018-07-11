@@ -9,23 +9,202 @@
 //------------------------------------------------------------------------------
 
 namespace Core.ServiceReference1 {
+    using System.Runtime.Serialization;
+    using System;
     
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="DeveloperModel", Namespace="http://schemas.datacontract.org/2004/07/Core")]
+    [System.SerializableAttribute()]
+    public partial class DeveloperModel : Common.BasePropertyChanged, System.Runtime.Serialization.IExtensibleDataObject {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string CompanyNameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string GenderField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string IDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private Core.ServiceReference1.KnowledgeModel[] KnowledgeBaseField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string[] KnowledgeIdsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string CompanyName {
+            get {
+                return this.CompanyNameField;
+            }
+            set {
+                this.CompanyNameField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Gender {
+            get {
+                return this.GenderField;
+            }
+            set {
+                this.GenderField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string ID {
+            get {
+                return this.IDField;
+            }
+            set {
+                this.IDField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public Core.ServiceReference1.KnowledgeModel[] KnowledgeBase {
+            get {
+                return this.KnowledgeBaseField;
+            }
+            set {
+                this.KnowledgeBaseField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string[] KnowledgeIds {
+            get {
+                return this.KnowledgeIdsField;
+            }
+            set {
+                this.KnowledgeIdsField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                this.NameField = value;
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="KnowledgeModel", Namespace="http://schemas.datacontract.org/2004/07/Core")]
+    [System.SerializableAttribute()]
+    public partial class KnowledgeModel : Common.BasePropertyChanged, System.Runtime.Serialization.IExtensibleDataObject {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string IDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool IsValidField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string LanguageField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private ushort RatingField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string TechnologyField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string ID {
+            get {
+                return this.IDField;
+            }
+            set {
+                this.IDField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool IsValid {
+            get {
+                return this.IsValidField;
+            }
+            set {
+                this.IsValidField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Language {
+            get {
+                return this.LanguageField;
+            }
+            set {
+                this.LanguageField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public ushort Rating {
+            get {
+                return this.RatingField;
+            }
+            set {
+                this.RatingField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Technology {
+            get {
+                return this.TechnologyField;
+            }
+            set {
+                this.TechnologyField = value;
+            }
+        }
+    }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServiceReference1.IDeveloperService")]
     public interface IDeveloperService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDeveloperService/CreateDocument", ReplyAction="http://tempuri.org/IDeveloperService/CreateDocumentResponse")]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.BsonElement[]))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.BsonElement))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.BsonValue))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.ObjectId))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.BsonElement[][]))]
-        MongoDB.Bson.BsonElement[] CreateDocument(object developer);
+        MongoDB.Bson.BsonElement[] CreateDocument(Core.ServiceReference1.DeveloperModel developer);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDeveloperService/CreateDocument", ReplyAction="http://tempuri.org/IDeveloperService/CreateDocumentResponse")]
-        System.Threading.Tasks.Task<MongoDB.Bson.BsonElement[]> CreateDocumentAsync(object developer);
+        System.Threading.Tasks.Task<MongoDB.Bson.BsonElement[]> CreateDocumentAsync(Core.ServiceReference1.DeveloperModel developer);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDeveloperService/DeleteAll", ReplyAction="http://tempuri.org/IDeveloperService/DeleteAllResponse")]
         bool DeleteAll();
@@ -40,52 +219,28 @@ namespace Core.ServiceReference1 {
         System.Threading.Tasks.Task<bool> DeleteByIdAsync(MongoDB.Bson.ObjectId id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDeveloperService/Delete", ReplyAction="http://tempuri.org/IDeveloperService/DeleteResponse")]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.BsonElement[]))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.BsonElement))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.BsonValue))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.ObjectId))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.BsonElement[][]))]
-        bool Delete(object entity);
+        bool Delete(Core.ServiceReference1.DeveloperModel entity);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDeveloperService/Delete", ReplyAction="http://tempuri.org/IDeveloperService/DeleteResponse")]
-        System.Threading.Tasks.Task<bool> DeleteAsync(object entity);
+        System.Threading.Tasks.Task<bool> DeleteAsync(Core.ServiceReference1.DeveloperModel entity);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDeveloperService/FindAll", ReplyAction="http://tempuri.org/IDeveloperService/FindAllResponse")]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.BsonElement[]))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.BsonElement))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.BsonValue))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.ObjectId))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.BsonElement[][]))]
-        object[] FindAll();
+        Core.ServiceReference1.DeveloperModel[] FindAll();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDeveloperService/FindAll", ReplyAction="http://tempuri.org/IDeveloperService/FindAllResponse")]
-        System.Threading.Tasks.Task<object[]> FindAllAsync();
+        System.Threading.Tasks.Task<Core.ServiceReference1.DeveloperModel[]> FindAllAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDeveloperService/FindById", ReplyAction="http://tempuri.org/IDeveloperService/FindByIdResponse")]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.BsonElement[]))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.BsonElement))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.BsonValue))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.ObjectId))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.BsonElement[][]))]
-        object FindById(string id);
+        Core.ServiceReference1.DeveloperModel FindById(string id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDeveloperService/FindById", ReplyAction="http://tempuri.org/IDeveloperService/FindByIdResponse")]
-        System.Threading.Tasks.Task<object> FindByIdAsync(string id);
+        System.Threading.Tasks.Task<Core.ServiceReference1.DeveloperModel> FindByIdAsync(string id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDeveloperService/FindByTextSearch", ReplyAction="http://tempuri.org/IDeveloperService/FindByTextSearchResponse")]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.BsonElement[]))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.BsonElement))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.BsonValue))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.ObjectId))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.BsonElement[][]))]
-        object[] FindByTextSearch(string text);
+        Core.ServiceReference1.DeveloperModel[] FindByTextSearch(string text);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDeveloperService/FindByTextSearch", ReplyAction="http://tempuri.org/IDeveloperService/FindByTextSearchResponse")]
-        System.Threading.Tasks.Task<object[]> FindByTextSearchAsync(string text);
+        System.Threading.Tasks.Task<Core.ServiceReference1.DeveloperModel[]> FindByTextSearchAsync(string text);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDeveloperService/GetDocumentFromDeveloperView", ReplyAction="http://tempuri.org/IDeveloperService/GetDocumentFromDeveloperViewResponse")]
         MongoDB.Bson.BsonElement[][] GetDocumentFromDeveloperView();
@@ -100,40 +255,22 @@ namespace Core.ServiceReference1 {
         System.Threading.Tasks.Task<MongoDB.Bson.BsonElement[]> InsertDocumentAsync(MongoDB.Bson.BsonElement[] doc);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDeveloperService/Save", ReplyAction="http://tempuri.org/IDeveloperService/SaveResponse")]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.BsonElement[]))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.BsonElement))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.BsonValue))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.ObjectId))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.BsonElement[][]))]
-        object Save(object entity);
+        Core.ServiceReference1.DeveloperModel Save(Core.ServiceReference1.DeveloperModel entity);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDeveloperService/Save", ReplyAction="http://tempuri.org/IDeveloperService/SaveResponse")]
-        System.Threading.Tasks.Task<object> SaveAsync(object entity);
+        System.Threading.Tasks.Task<Core.ServiceReference1.DeveloperModel> SaveAsync(Core.ServiceReference1.DeveloperModel entity);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDeveloperService/SaveEntities", ReplyAction="http://tempuri.org/IDeveloperService/SaveEntitiesResponse")]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.BsonElement[]))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.BsonElement))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.BsonValue))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.ObjectId))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.BsonElement[][]))]
-        object[] SaveEntities(object[] entities);
+        Core.ServiceReference1.DeveloperModel[] SaveEntities(Core.ServiceReference1.DeveloperModel[] entities);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDeveloperService/SaveEntities", ReplyAction="http://tempuri.org/IDeveloperService/SaveEntitiesResponse")]
-        System.Threading.Tasks.Task<object[]> SaveEntitiesAsync(object[] entities);
+        System.Threading.Tasks.Task<Core.ServiceReference1.DeveloperModel[]> SaveEntitiesAsync(Core.ServiceReference1.DeveloperModel[] entities);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDeveloperService/Update", ReplyAction="http://tempuri.org/IDeveloperService/UpdateResponse")]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.BsonElement[]))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.BsonElement))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.BsonValue))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.ObjectId))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.BsonElement[][]))]
-        object Update(object entity);
+        Core.ServiceReference1.DeveloperModel Update(Core.ServiceReference1.DeveloperModel entity);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDeveloperService/Update", ReplyAction="http://tempuri.org/IDeveloperService/UpdateResponse")]
-        System.Threading.Tasks.Task<object> UpdateAsync(object entity);
+        System.Threading.Tasks.Task<Core.ServiceReference1.DeveloperModel> UpdateAsync(Core.ServiceReference1.DeveloperModel entity);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDeveloperService/UpdateDocument", ReplyAction="http://tempuri.org/IDeveloperService/UpdateDocumentResponse")]
         bool UpdateDocument(MongoDB.Bson.BsonElement[] doc);
@@ -142,16 +279,10 @@ namespace Core.ServiceReference1 {
         System.Threading.Tasks.Task<bool> UpdateDocumentAsync(MongoDB.Bson.BsonElement[] doc);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDeveloperService/Clone", ReplyAction="http://tempuri.org/IDeveloperService/CloneResponse")]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.BsonElement[]))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.BsonElement))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.BsonValue))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.ObjectId))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MongoDB.Bson.BsonElement[][]))]
-        object Clone(object entity);
+        Core.ServiceReference1.DeveloperModel Clone(Core.ServiceReference1.DeveloperModel entity);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDeveloperService/Clone", ReplyAction="http://tempuri.org/IDeveloperService/CloneResponse")]
-        System.Threading.Tasks.Task<object> CloneAsync(object entity);
+        System.Threading.Tasks.Task<Core.ServiceReference1.DeveloperModel> CloneAsync(Core.ServiceReference1.DeveloperModel entity);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -181,11 +312,11 @@ namespace Core.ServiceReference1 {
                 base(binding, remoteAddress) {
         }
         
-        public MongoDB.Bson.BsonElement[] CreateDocument(object developer) {
+        public MongoDB.Bson.BsonElement[] CreateDocument(Core.ServiceReference1.DeveloperModel developer) {
             return base.Channel.CreateDocument(developer);
         }
         
-        public System.Threading.Tasks.Task<MongoDB.Bson.BsonElement[]> CreateDocumentAsync(object developer) {
+        public System.Threading.Tasks.Task<MongoDB.Bson.BsonElement[]> CreateDocumentAsync(Core.ServiceReference1.DeveloperModel developer) {
             return base.Channel.CreateDocumentAsync(developer);
         }
         
@@ -205,35 +336,35 @@ namespace Core.ServiceReference1 {
             return base.Channel.DeleteByIdAsync(id);
         }
         
-        public bool Delete(object entity) {
+        public bool Delete(Core.ServiceReference1.DeveloperModel entity) {
             return base.Channel.Delete(entity);
         }
         
-        public System.Threading.Tasks.Task<bool> DeleteAsync(object entity) {
+        public System.Threading.Tasks.Task<bool> DeleteAsync(Core.ServiceReference1.DeveloperModel entity) {
             return base.Channel.DeleteAsync(entity);
         }
         
-        public object[] FindAll() {
+        public Core.ServiceReference1.DeveloperModel[] FindAll() {
             return base.Channel.FindAll();
         }
         
-        public System.Threading.Tasks.Task<object[]> FindAllAsync() {
+        public System.Threading.Tasks.Task<Core.ServiceReference1.DeveloperModel[]> FindAllAsync() {
             return base.Channel.FindAllAsync();
         }
         
-        public object FindById(string id) {
+        public Core.ServiceReference1.DeveloperModel FindById(string id) {
             return base.Channel.FindById(id);
         }
         
-        public System.Threading.Tasks.Task<object> FindByIdAsync(string id) {
+        public System.Threading.Tasks.Task<Core.ServiceReference1.DeveloperModel> FindByIdAsync(string id) {
             return base.Channel.FindByIdAsync(id);
         }
         
-        public object[] FindByTextSearch(string text) {
+        public Core.ServiceReference1.DeveloperModel[] FindByTextSearch(string text) {
             return base.Channel.FindByTextSearch(text);
         }
         
-        public System.Threading.Tasks.Task<object[]> FindByTextSearchAsync(string text) {
+        public System.Threading.Tasks.Task<Core.ServiceReference1.DeveloperModel[]> FindByTextSearchAsync(string text) {
             return base.Channel.FindByTextSearchAsync(text);
         }
         
@@ -253,27 +384,27 @@ namespace Core.ServiceReference1 {
             return base.Channel.InsertDocumentAsync(doc);
         }
         
-        public object Save(object entity) {
+        public Core.ServiceReference1.DeveloperModel Save(Core.ServiceReference1.DeveloperModel entity) {
             return base.Channel.Save(entity);
         }
         
-        public System.Threading.Tasks.Task<object> SaveAsync(object entity) {
+        public System.Threading.Tasks.Task<Core.ServiceReference1.DeveloperModel> SaveAsync(Core.ServiceReference1.DeveloperModel entity) {
             return base.Channel.SaveAsync(entity);
         }
         
-        public object[] SaveEntities(object[] entities) {
+        public Core.ServiceReference1.DeveloperModel[] SaveEntities(Core.ServiceReference1.DeveloperModel[] entities) {
             return base.Channel.SaveEntities(entities);
         }
         
-        public System.Threading.Tasks.Task<object[]> SaveEntitiesAsync(object[] entities) {
+        public System.Threading.Tasks.Task<Core.ServiceReference1.DeveloperModel[]> SaveEntitiesAsync(Core.ServiceReference1.DeveloperModel[] entities) {
             return base.Channel.SaveEntitiesAsync(entities);
         }
         
-        public object Update(object entity) {
+        public Core.ServiceReference1.DeveloperModel Update(Core.ServiceReference1.DeveloperModel entity) {
             return base.Channel.Update(entity);
         }
         
-        public System.Threading.Tasks.Task<object> UpdateAsync(object entity) {
+        public System.Threading.Tasks.Task<Core.ServiceReference1.DeveloperModel> UpdateAsync(Core.ServiceReference1.DeveloperModel entity) {
             return base.Channel.UpdateAsync(entity);
         }
         
@@ -285,11 +416,11 @@ namespace Core.ServiceReference1 {
             return base.Channel.UpdateDocumentAsync(doc);
         }
         
-        public object Clone(object entity) {
+        public Core.ServiceReference1.DeveloperModel Clone(Core.ServiceReference1.DeveloperModel entity) {
             return base.Channel.Clone(entity);
         }
         
-        public System.Threading.Tasks.Task<object> CloneAsync(object entity) {
+        public System.Threading.Tasks.Task<Core.ServiceReference1.DeveloperModel> CloneAsync(Core.ServiceReference1.DeveloperModel entity) {
             return base.Channel.CloneAsync(entity);
         }
     }

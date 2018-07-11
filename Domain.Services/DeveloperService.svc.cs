@@ -1,9 +1,7 @@
-﻿using Client.Core.Model;
-using Core;
+﻿using Core;
 using Core.Interfaces;
 using MongoDB.Bson;
 using Repository;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -15,77 +13,77 @@ namespace Domain.Services
 
         public DeveloperService()
         {
-            _repository = new DeveloperRepository();
+            _repository = new DeveloperRepository();      
         }
 
-        public Task<IDeveloper> Clone(IDeveloper entity)
+        public async Task<DeveloperModel> CloneAsync(DeveloperModel entity)
         {
-            throw new NotImplementedException();
+            return await _repository.CloneAsync(entity);
         }
 
-        public BsonDocument CreateDocument(IDeveloper developer)
+        public BsonDocument CreateDocument(DeveloperModel developer)
         {
-            throw new NotImplementedException();
+            return _repository.CreateDocument(developer);
         }
 
-        public Task<bool> DeleteAll()
+        public async Task<bool> DeleteAllAsync()
         {
-            throw new NotImplementedException();
+            return await _repository.DeleteAllAsync();
         }
 
-        public Task<bool> Delete(IDeveloper entity)
+        public async Task<bool> DeleteAsync(DeveloperModel entity)
         {
-            throw new NotImplementedException();
+            return await _repository.DeleteAsync(entity);
         }
 
-        public Task<bool> DeleteById(ObjectId id)
+        public async Task<bool> DeleteByIdAsync(ObjectId id)
         {
-            throw new NotImplementedException();
+            return await _repository.DeleteByIdAsync(id);
         }
 
-        public async Task<IEnumerable<DeveloperModel>> FindAll()
+        public async Task<IEnumerable<DeveloperModel>> FindAllAsync()
         {
             return await _repository.FindAllAsync();
         }
 
-        public Task<IDeveloper> FindById(string id)
+        public async Task<DeveloperModel> FindByIdAsync(string id)
         {
-            throw new NotImplementedException();
+            return await _repository.FindByIdAsync(id);
         }
 
-        public Task<IEnumerable<IDeveloper>> FindByTextSearch(string text)
+        public async Task<IEnumerable<DeveloperModel>> FindByTextSearchAsync(string text)
         {
-            throw new NotImplementedException();
+            return await _repository.FindByTextSearchAsync(text);
         }
 
-        public Task<IEnumerable<BsonDocument>> GetDocumentFromDeveloperView()
+        public async Task<IEnumerable<BsonDocument>> GetDocumentFromDeveloperViewAsync()
         {
-            throw new NotImplementedException();
+            return await _repository.GetDocumentFromDeveloperView();
         }
 
-        public Task<BsonDocument> InsertDocument(BsonDocument doc)
+        public async Task<BsonDocument> InsertDocumentAsync(BsonDocument doc)
         {
-            throw new NotImplementedException();
+            return await _repository.InsertDocumentAsync(doc);
         }
 
-        public Task<IDeveloper> Save(IDeveloper entity)
+        public async Task<DeveloperModel> SaveAsync(DeveloperModel entity)
         {
-            throw new NotImplementedException();
+            return await _repository.SaveAsync(entity);
         }
 
-        public Task<IEnumerable<IDeveloper>> SaveEntities(IEnumerable<IDeveloper> entities)
+        public async Task<IEnumerable<DeveloperModel>> SaveEntitiesAsync(IEnumerable<DeveloperModel> entities)
         {
-            throw new NotImplementedException();
+            return await _repository.SaveAsync(entities);
         }
 
-        public Task<IDeveloper> Update(IDeveloper entity)
+        public async Task<DeveloperModel> UpdateAsync(DeveloperModel entity)
         {
-            throw new NotImplementedException();
+            return await _repository.UpdateAsync(entity);
         }
 
-        public Task<bool> UpdateDocument(BsonDocument doc)
+        public async Task<bool> UpdateDocumentAsync(BsonDocument doc)
         {
-            throw new NotImplementedException();
+            return await _repository.UpdateDocumentAsync(doc);
         }
     }
 }

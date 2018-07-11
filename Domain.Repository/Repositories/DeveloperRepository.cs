@@ -33,10 +33,9 @@ namespace Repository
             return doc;
         }
 
-        public async Task<IDeveloper> SaveAsync(IDeveloper entity)
+        public async Task<DeveloperModel> SaveAsync(DeveloperModel model)
         {
             var collection = MongoClientManager.DataBase.GetCollection<DeveloperModel>(CollectionNames.Developer);
-            var model = entity as DeveloperModel;
             if (model.KnowledgeBase != null && model.KnowledgeBase.Any())
             {
                 model.KnowledgeIds = model.KnowledgeBase.Select(p => p.ID).ToList();
@@ -44,7 +43,7 @@ namespace Repository
             model.KnowledgeBase = null;
 
             await collection.InsertOneAsync(model);
-            Console.WriteLine("document added: " + entity.ToJson());
+            Console.WriteLine("document added: " + model.ToJson());
 
             var filter = new BsonDocument();
 
@@ -54,7 +53,7 @@ namespace Repository
 
             //Publish the  saved entity
             _userChangedQueueClient.Publish(model);
-            return entity;
+            return model;
         }
 
         public async Task<IEnumerable<DeveloperModel>> SaveAsync(IEnumerable<DeveloperModel> entities)

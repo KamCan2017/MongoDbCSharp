@@ -45,7 +45,6 @@ namespace Core
         [DataMember]
         public ushort Rating { get; set; }
 
-        [DataMember]
         public bool IsValid
         {
             get { return !string.IsNullOrEmpty(Language) && !string.IsNullOrEmpty(Technology); }

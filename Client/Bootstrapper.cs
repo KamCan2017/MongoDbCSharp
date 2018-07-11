@@ -26,13 +26,12 @@ namespace Client
             base.ConfigureContainer();
             Container.AddNewExtension<Interception>();
             Container.RegisterType<IBusyIndicator, MainWindowViewModel>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<IDeveloperRepository, DeveloperRepository>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<IKnowledgeRepository, KnowledgeRepository>(new ContainerControlledLifetimeManager());
 
             RegisterTypeIfMissing(typeof(IEventAggregator), typeof(EventAggregator), true);
 
             ModuleManager moduleManager = Container.TryResolve<ModuleManager>();
             moduleManager.LoadModule("DeveloperModule");
+            moduleManager.LoadModule("RespositoryModule");
         }
 
         /// <summary>
@@ -44,6 +43,7 @@ namespace Client
 
             ModuleCatalog moduleCatalog = (ModuleCatalog)this.ModuleCatalog;
             moduleCatalog.AddModule(typeof(DeveloperModule));
+            moduleCatalog.AddModule(typeof(Domain.Repository.RespositoryModule));
         }
 
         /// <summary>

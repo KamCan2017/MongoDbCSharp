@@ -27,7 +27,7 @@ namespace Repository
 
         Task<BsonDocument> InsertDocumentAsync(BsonDocument doc);
 
-        Task<IDeveloper> SaveAsync(IDeveloper entity);
+        Task<DeveloperModel> SaveAsync(DeveloperModel entity);
 
         Task<IEnumerable<DeveloperModel>> SaveAsync(IEnumerable<DeveloperModel> entities);
 

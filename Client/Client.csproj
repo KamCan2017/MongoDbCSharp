@@ -177,9 +177,16 @@
       <Project>{4123B481-225D-414A-9F8D-F3C5770A6B75}</Project>
       <Name>Domain.Repository</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Domain.Services\Domain.Services.csproj">
+      <Project>{d0d176d7-869a-43fc-971c-fa93b3d49533}</Project>
+      <Name>Domain.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="mongodblogo_JHG_icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

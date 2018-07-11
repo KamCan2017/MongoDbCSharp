@@ -86,7 +86,16 @@ namespace Core.ServiceClient
                     EndPoint = "http://localhost:59548/DeveloperService.svc",
                     Binding = new BasicHttpBinding() { MaxReceivedMessageSize = 268435456 }
                 }
-                    );
+               );
+
+            _mappingEndpoint.Add(typeof(IKnowledgeService),
+              new ChannelAccess()
+              {
+                  EndPoint = "http://localhost:59548/KnowledgeService.svc",
+                  Binding = new BasicHttpBinding() { MaxReceivedMessageSize = 268435456 }
+              }
+                  );
+            
         }
 
         public static ChannelAccess GetEndPointOfService<T>()

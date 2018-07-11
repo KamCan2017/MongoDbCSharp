@@ -1,8 +1,8 @@
-﻿using Client.Developer.Converter;
-using Common;
+﻿using Common;
 using Core;
+using Core.Interfaces;
+using Core.ServiceClient;
 using Developer;
-using MongoDB.Bson;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Interactivity.InteractionRequest;
@@ -20,10 +20,6 @@ namespace Client.Developer.ViewModels
         private DeveloperModel _developer;
         private DelegateCommand _saveCommand;
         private ICommand _cancelCommand;
-
-        private IDeveloperRepository _developerRepository;
-        private IKnowledgeRepository _knowledgeRepository;
-
         private readonly IBusyIndicator _busyIndicator;
         private readonly IEventAggregator _eventAggregator;
         private DelegateCommand _addKnowledgeCommand;
@@ -36,8 +32,6 @@ namespace Client.Developer.ViewModels
         {
             _busyIndicator = busyIndicator;
             _eventAggregator = eventAggregator;
-            _developerRepository = new DeveloperRepository();
-            _knowledgeRepository = knowledgeRepository;
 
             _saveCommand = new DelegateCommand(async() => await Save(),  CanExecuteSave);
             _cancelCommand = new DelegateCommand(Cancel);
@@ -176,15 +170,15 @@ namespace Client.Developer.ViewModels
                     {
                         foreach (var entity in knowledgeToSave)
                         {
-                            var savedObj = await _knowledgeRepository.SaveAsync(entity);
+                            var savedObj = await ServiceClient<IKnowledgeService>.ExecuteAsync(o => o.SaveAsync(entity));
                         }
                     }
                 }
 
                 if (string.IsNullOrEmpty(Developer.ID))
-                    await _developerRepository.SaveAsync(Developer);
+                    await ServiceClient<IDeveloperService>.ExecuteAsync(o => o.SaveAsync(Developer));
                 else
-                    await _developerRepository.UpdateAsync(Developer);
+                    await ServiceClient<IDeveloperService>.ExecuteAsync(o => o.UpdateAsync(Developer));
 
                 Developer = new DeveloperModel();
 
