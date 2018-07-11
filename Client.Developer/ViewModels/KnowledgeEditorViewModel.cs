@@ -1,4 +1,5 @@
-﻿using Developer;
+﻿using Core;
+using Developer;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;

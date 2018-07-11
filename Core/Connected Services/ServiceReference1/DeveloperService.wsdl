@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="DeveloperService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:59548/DeveloperService.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:59548/DeveloperService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:59548/DeveloperService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/MongoDB.Bson" />
+      <xsd:import schemaLocation="http://localhost:59548/DeveloperService.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IDeveloperService_CreateDocument_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateDocument" />
+  </wsdl:message>
+  <wsdl:message name="IDeveloperService_CreateDocument_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateDocumentResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDeveloperService_DeleteAll_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteAll" />
+  </wsdl:message>
+  <wsdl:message name="IDeveloperService_DeleteAll_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteAllResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDeveloperService_DeleteById_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteById" />
+  </wsdl:message>
+  <wsdl:message name="IDeveloperService_DeleteById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDeveloperService_Delete_InputMessage">
+    <wsdl:part name="parameters" element="tns:Delete" />
+  </wsdl:message>
+  <wsdl:message name="IDeveloperService_Delete_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDeveloperService_FindAll_InputMessage">
+    <wsdl:part name="parameters" element="tns:FindAll" />
+  </wsdl:message>
+  <wsdl:message name="IDeveloperService_FindAll_OutputMessage">
+    <wsdl:part name="parameters" element="tns:FindAllResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDeveloperService_FindById_InputMessage">
+    <wsdl:part name="parameters" element="tns:FindById" />
+  </wsdl:message>
+  <wsdl:message name="IDeveloperService_FindById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:FindByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDeveloperService_FindByTextSearch_InputMessage">
+    <wsdl:part name="parameters" element="tns:FindByTextSearch" />
+  </wsdl:message>
+  <wsdl:message name="IDeveloperService_FindByTextSearch_OutputMessage">
+    <wsdl:part name="parameters" element="tns:FindByTextSearchResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDeveloperService_GetDocumentFromDeveloperView_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDocumentFromDeveloperView" />
+  </wsdl:message>
+  <wsdl:message name="IDeveloperService_GetDocumentFromDeveloperView_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDocumentFromDeveloperViewResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDeveloperService_InsertDocument_InputMessage">
+    <wsdl:part name="parameters" element="tns:InsertDocument" />
+  </wsdl:message>
+  <wsdl:message name="IDeveloperService_InsertDocument_OutputMessage">
+    <wsdl:part name="parameters" element="tns:InsertDocumentResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDeveloperService_Save_InputMessage">
+    <wsdl:part name="parameters" element="tns:Save" />
+  </wsdl:message>
+  <wsdl:message name="IDeveloperService_Save_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDeveloperService_SaveEntities_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveEntities" />
+  </wsdl:message>
+  <wsdl:message name="IDeveloperService_SaveEntities_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveEntitiesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDeveloperService_Update_InputMessage">
+    <wsdl:part name="parameters" element="tns:Update" />
+  </wsdl:message>
+  <wsdl:message name="IDeveloperService_Update_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDeveloperService_UpdateDocument_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateDocument" />
+  </wsdl:message>
+  <wsdl:message name="IDeveloperService_UpdateDocument_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateDocumentResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDeveloperService_Clone_InputMessage">
+    <wsdl:part name="parameters" element="tns:Clone" />
+  </wsdl:message>
+  <wsdl:message name="IDeveloperService_Clone_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CloneResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IDeveloperService">
+    <wsdl:operation name="CreateDocument">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDeveloperService/CreateDocument" message="tns:IDeveloperService_CreateDocument_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDeveloperService/CreateDocumentResponse" message="tns:IDeveloperService_CreateDocument_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAll">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDeveloperService/DeleteAll" message="tns:IDeveloperService_DeleteAll_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDeveloperService/DeleteAllResponse" message="tns:IDeveloperService_DeleteAll_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDeveloperService/DeleteById" message="tns:IDeveloperService_DeleteById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDeveloperService/DeleteByIdResponse" message="tns:IDeveloperService_DeleteById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Delete">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDeveloperService/Delete" message="tns:IDeveloperService_Delete_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDeveloperService/DeleteResponse" message="tns:IDeveloperService_Delete_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="FindAll">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDeveloperService/FindAll" message="tns:IDeveloperService_FindAll_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDeveloperService/FindAllResponse" message="tns:IDeveloperService_FindAll_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="FindById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDeveloperService/FindById" message="tns:IDeveloperService_FindById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDeveloperService/FindByIdResponse" message="tns:IDeveloperService_FindById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="FindByTextSearch">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDeveloperService/FindByTextSearch" message="tns:IDeveloperService_FindByTextSearch_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDeveloperService/FindByTextSearchResponse" message="tns:IDeveloperService_FindByTextSearch_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentFromDeveloperView">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDeveloperService/GetDocumentFromDeveloperView" message="tns:IDeveloperService_GetDocumentFromDeveloperView_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDeveloperService/GetDocumentFromDeveloperViewResponse" message="tns:IDeveloperService_GetDocumentFromDeveloperView_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertDocument">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDeveloperService/InsertDocument" message="tns:IDeveloperService_InsertDocument_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDeveloperService/InsertDocumentResponse" message="tns:IDeveloperService_InsertDocument_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Save">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDeveloperService/Save" message="tns:IDeveloperService_Save_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDeveloperService/SaveResponse" message="tns:IDeveloperService_Save_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveEntities">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDeveloperService/SaveEntities" message="tns:IDeveloperService_SaveEntities_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDeveloperService/SaveEntitiesResponse" message="tns:IDeveloperService_SaveEntities_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Update">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDeveloperService/Update" message="tns:IDeveloperService_Update_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDeveloperService/UpdateResponse" message="tns:IDeveloperService_Update_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateDocument">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDeveloperService/UpdateDocument" message="tns:IDeveloperService_UpdateDocument_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDeveloperService/UpdateDocumentResponse" message="tns:IDeveloperService_UpdateDocument_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Clone">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDeveloperService/Clone" message="tns:IDeveloperService_Clone_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDeveloperService/CloneResponse" message="tns:IDeveloperService_Clone_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IDeveloperService" type="tns:IDeveloperService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CreateDocument">
+      <soap:operation soapAction="http://tempuri.org/IDeveloperService/CreateDocument" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAll">
+      <soap:operation soapAction="http://tempuri.org/IDeveloperService/DeleteAll" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteById">
+      <soap:operation soapAction="http://tempuri.org/IDeveloperService/DeleteById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Delete">
+      <soap:operation soapAction="http://tempuri.org/IDeveloperService/Delete" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FindAll">
+      <soap:operation soapAction="http://tempuri.org/IDeveloperService/FindAll" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FindById">
+      <soap:operation soapAction="http://tempuri.org/IDeveloperService/FindById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FindByTextSearch">
+      <soap:operation soapAction="http://tempuri.org/IDeveloperService/FindByTextSearch" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentFromDeveloperView">
+      <soap:operation soapAction="http://tempuri.org/IDeveloperService/GetDocumentFromDeveloperView" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertDocument">
+      <soap:operation soapAction="http://tempuri.org/IDeveloperService/InsertDocument" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Save">
+      <soap:operation soapAction="http://tempuri.org/IDeveloperService/Save" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveEntities">
+      <soap:operation soapAction="http://tempuri.org/IDeveloperService/SaveEntities" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Update">
+      <soap:operation soapAction="http://tempuri.org/IDeveloperService/Update" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateDocument">
+      <soap:operation soapAction="http://tempuri.org/IDeveloperService/UpdateDocument" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Clone">
+      <soap:operation soapAction="http://tempuri.org/IDeveloperService/Clone" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="DeveloperService">
+    <wsdl:port name="BasicHttpBinding_IDeveloperService" binding="tns:BasicHttpBinding_IDeveloperService">
+      <soap:address location="http://localhost:59548/DeveloperService.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

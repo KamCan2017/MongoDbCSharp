@@ -1,14 +1,14 @@
 ﻿using Client.Core.Model;
-using Developer;
 using Common;
+using Core;
+using Core.QueueClient;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Collections.ObjectModel;
-using Core.QueueClient;
 
 namespace Repository
 {
@@ -48,7 +48,7 @@ namespace Repository
 
             var filter = new BsonDocument();
 
-            Console.WriteLine("count:" + collection.Count(filter).ToString());
+            Console.WriteLine("count:" + collection.CountDocuments(filter).ToString());
 
             await FillKnowledge(model);
 
@@ -98,7 +98,7 @@ namespace Repository
             Console.WriteLine("document updated: " + entity.ToJson());
 
             var filter = new BsonDocument();
-            Console.WriteLine("count:" + collection.Count(filter).ToString());
+            Console.WriteLine("count:" + collection.CountDocuments(filter).ToString());
 
             entity.KnowledgeIds = array;
             await FillKnowledge(entity);
@@ -118,7 +118,7 @@ namespace Repository
             Console.WriteLine("document updated: " + doc.ToJson());
 
             var filter = new BsonDocument();
-            Console.WriteLine("count:" + collection.Count(filter).ToString());
+            Console.WriteLine("count:" + collection.CountDocuments(filter).ToString());
 
 
             return true;
@@ -133,12 +133,12 @@ namespace Repository
 
             var filter = new BsonDocument();
 
-            Console.WriteLine("count:" + collection.Count(filter).ToString());
+            Console.WriteLine("count:" + collection.CountDocuments(filter).ToString());
 
             return doc;
         }
 
-        public async Task<IEnumerable<IDeveloper>> FindAllAsync()
+        public async Task<IEnumerable<DeveloperModel>> FindAllAsync()
         {
             var collection = MongoClientManager.DataBase.GetCollection<DeveloperModel>(CollectionNames.Developer);
             var filter = new BsonDocument();

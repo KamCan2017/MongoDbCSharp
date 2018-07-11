@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Client.Core.Model;
-using Developer;
+﻿using Client.Core.Model;
+using Core;
 using MongoDB.Bson;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Repository
 {

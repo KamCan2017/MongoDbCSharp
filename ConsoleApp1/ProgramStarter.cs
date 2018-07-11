@@ -1,4 +1,5 @@
 ﻿using Client.Core.Model;
+using Core;
 using Developer;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;

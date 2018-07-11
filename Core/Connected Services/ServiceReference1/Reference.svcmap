@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="fe8a8d55-78fd-4a5c-9fea-4aede9cc7809" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:59548/DeveloperService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="DeveloperService.xsd" MetadataType="Schema" ID="7a4330ca-5349-4d94-b02a-ee695b29ab0e" SourceId="1" SourceUrl="http://localhost:59548/DeveloperService.svc?xsd=xsd0" />
+    <MetadataFile FileName="DeveloperService1.xsd" MetadataType="Schema" ID="945d8af7-e263-4028-9493-a19e864e21f4" SourceId="1" SourceUrl="http://localhost:59548/DeveloperService.svc?xsd=xsd3" />
+    <MetadataFile FileName="DeveloperService.disco" MetadataType="Disco" ID="f5869f8f-3658-4ee6-b6ae-b907f2ce7aa3" SourceId="1" SourceUrl="http://localhost:59548/DeveloperService.svc?disco" />
+    <MetadataFile FileName="DeveloperService2.xsd" MetadataType="Schema" ID="3e3d6c24-518d-4000-be34-fc7cdd580971" SourceId="1" SourceUrl="http://localhost:59548/DeveloperService.svc?xsd=xsd1" />
+    <MetadataFile FileName="DeveloperService.wsdl" MetadataType="Wsdl" ID="852d9992-2458-4bc9-b2f6-3db95d27f4a3" SourceId="1" SourceUrl="http://localhost:59548/DeveloperService.svc?wsdl" />
+    <MetadataFile FileName="DeveloperService3.xsd" MetadataType="Schema" ID="0ed30966-a6a6-4a5d-be32-13c45066cc5e" SourceId="1" SourceUrl="http://localhost:59548/DeveloperService.svc?xsd=xsd2" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

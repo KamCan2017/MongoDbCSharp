@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Core;
 
 namespace Repository
 {
@@ -39,7 +40,7 @@ namespace Repository
             Console.WriteLine("document updated: " + entity.ToJson());
 
             var filter = new BsonDocument();
-            Console.WriteLine("count:" + collection.Count(filter).ToString());
+            Console.WriteLine("count:" + collection.CountDocuments(filter).ToString());
 
 
             return entity;

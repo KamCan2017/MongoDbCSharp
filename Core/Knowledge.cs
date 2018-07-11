@@ -4,7 +4,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System.Runtime.Serialization;
 
-namespace Developer
+namespace Core
 {
     [DataContract]
     public class KnowledgeModel : BasePropertyChanged, IKnowledge

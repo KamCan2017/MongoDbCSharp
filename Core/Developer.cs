@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 
-namespace Developer
+namespace Core
 {
     [DataContract]
     public class DeveloperModel : BasePropertyChanged, IDeveloper
@@ -80,7 +80,6 @@ namespace Developer
         [DataMember]
         public List<string> KnowledgeIds { get; set; }
 
-        [DataMember]
         public bool IsValid
         {
             get { return !string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(CompanyName); }

@@ -1,4 +1,5 @@
-﻿using Developer;
+﻿using Core;
+using Developer;
 using Prism.Events;
 
 namespace Client.Developer

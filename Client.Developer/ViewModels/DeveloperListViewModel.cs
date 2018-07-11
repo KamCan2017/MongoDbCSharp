@@ -15,6 +15,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Newtonsoft.Json.Linq;
+using Core.Interfaces;
+using Core.ServiceClient;
 
 namespace Client.Developer.ViewModels
 {
@@ -146,8 +148,11 @@ namespace Client.Developer.ViewModels
 
             //var developerSvc = new DeveloperService();
             //var items = await developerSvc.FindAllAsync();
+
+            var res = await ServiceClient<IDeveloperService>.ExecuteAsync(o => o.FindAll());
+
             var developers = await _developerRepository.FindAllAsync();
-            Developers = new ObservableCollection<IDeveloper>(developers);
+            Developers = new ObservableCollection<IDeveloper>(res);
 
             DeleteAllCommand.RaiseCanExecuteChanged();
 

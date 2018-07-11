@@ -43,6 +43,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -55,8 +56,6 @@
   <ItemGroup>
     <Compile Include="Factory.cs" />
     <Compile Include="Model\Department.cs" />
-    <Compile Include="Model\Developer.cs" />
-    <Compile Include="Model\Knowledge.cs" />
     <Compile Include="ProgrammingLanguage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
